@@ -4,10 +4,17 @@ import html2canvas from "html2canvas";
 import DraggableResizableDiv from "./draggable/DraggableDiv";
 import DraggableImageList from "./container/DraggableImageList";
 import { ImageData, PlaygroundImage } from "./shared/types";
-import DraggableBuildingImgList from './container/DraggableBuildingImgList';
-import DraggablePeapleImgList from './container/DraggablePeapleImgList';
+import { useStore } from "./shared/selectedCategory";
+import DraggableCategoryImageList from "./container/DraggableCategoryImageList";
 
-type RatioKey = "wide-16-9" | "wide-3-2" | "wide-4-3" | "square-1-1" | "tall-9-16" | "tall-2-3" | "tall-3-4";
+type RatioKey =
+  | "wide-16-9"
+  | "wide-3-2"
+  | "wide-4-3"
+  | "square-1-1"
+  | "tall-9-16"
+  | "tall-2-3"
+  | "tall-3-4";
 
 const MAX_IMAGE_SIZE = 180;
 
@@ -24,7 +31,7 @@ export default function App() {
   const [containerWidth, setContainerWidth] = useState(0);
   const playgroundRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-
+  const { selectedCategory, setSelectedCategory } = useStore();
 
   const ratioOptions: Record<RatioKey, { label: string; ratio: number }> = {
     "wide-16-9": { label: "Wide 16:9", ratio: 16 / 9 },
@@ -45,7 +52,10 @@ export default function App() {
     const updateWidth = () => {
       if (containerRef.current) {
         const padding = 40;
-        const availableWidth = Math.min(containerRef.current.offsetWidth - padding, DEFAULT_MONITOR);
+        const availableWidth = Math.min(
+          containerRef.current.offsetWidth - padding,
+          DEFAULT_MONITOR,
+        );
         setContainerWidth(availableWidth);
       }
     };
@@ -55,7 +65,6 @@ export default function App() {
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
-
   const getPlaygroundDimensions = () => {
     const selectedRatio = ratioOptions[ratio].ratio;
     return {
@@ -63,7 +72,6 @@ export default function App() {
       height: containerWidth / selectedRatio,
     };
   };
-
 
   const dimensions = getPlaygroundDimensions();
 
@@ -106,7 +114,11 @@ export default function App() {
 
     const newId =
       playgroundImages.length > 0
-        ? "u_" + (Math.max(...playgroundImages.map((d) => parseInt(d.id.slice(2), 10))) + 1)
+        ? "u_" +
+        (Math.max(
+          ...playgroundImages.map((d) => parseInt(d.id.slice(2), 10)),
+        ) +
+          1)
         : "u_0";
 
     const newPlaygroundImage: PlaygroundImage = {
@@ -118,14 +130,17 @@ export default function App() {
       y: boundedY,
     };
 
-
     setPlaygroundImages([...playgroundImages, newPlaygroundImage]);
   };
 
   const handleImageAdd = (imageData: Omit<ImageData, "id">) => {
     const newId =
       playgroundImages.length > 0
-        ? "u_" + (Math.max(...playgroundImages.map((d) => parseInt(d.id.slice(2), 10))) + 1)
+        ? "u_" +
+        (Math.max(
+          ...playgroundImages.map((d) => parseInt(d.id.slice(2), 10)),
+        ) +
+          1)
         : "u_0";
     setUploadedImages([...uploadedImages, { ...imageData, id: newId }]);
   };
@@ -249,11 +264,22 @@ export default function App() {
           />
         ))}
       </Playground>
-      <ImgContainerTitle>Buildings</ImgContainerTitle>
-      <DraggableBuildingImgList />
-      <ImgContainerTitle>Peaple</ImgContainerTitle>
-      <DraggablePeapleImgList />
-      <ImgContainerTitle>Uploaded Images</ImgContainerTitle>
+      <CategoryButtonGroup>
+        <CategoryButton
+          $isSelected={selectedCategory === "Buildings"}
+          onClick={() => setSelectedCategory("Buildings")}
+        >
+          Buildings
+        </CategoryButton>
+        <CategoryButton
+          $isSelected={selectedCategory === "People"}
+          onClick={() => setSelectedCategory("People")}
+        >
+          People
+        </CategoryButton>
+      </CategoryButtonGroup>
+      <DraggableCategoryImageList />
+
       <DraggableImageList images={uploadedImages} onImageAdd={handleImageAdd} />
 
       <ControlPanel>
@@ -273,7 +299,7 @@ const Main = styled.main`
 const Title = styled.h1`
   font-size: 30px;
   margin-bottom: 40px;
-`
+`;
 
 const RatioSection = styled.div`
   margin-bottom: 24px;
@@ -310,8 +336,24 @@ const Playground = styled.div`
   background-color: white;
 `;
 
-const ImgContainerTitle = styled.h5`
-  margin-bottom: 10px;
+const CategoryButtonGroup = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+`;
+
+const CategoryButton = styled.button<{ $isSelected: boolean }>`
+  padding: 8px 16px;
+  font-size: 14px;
+  border: 1px solid gray;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: ${(props) => (props.$isSelected ? "#3B82F6" : "#E5E7EB")};
+  color: ${(props) => (props.$isSelected ? "white" : "black")};
+
+  &:hover {
+    background-color: #357abd;
+  }
 `;
 
 const ControlPanel = styled.div`
