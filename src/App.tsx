@@ -266,16 +266,58 @@ export default function App() {
       </Playground>
       <CategoryButtonGroup>
         <CategoryButton
+          $isSelected={selectedCategory === "People"}
+          onClick={() => setSelectedCategory("People")}
+        >
+          People
+        </CategoryButton>
+        <CategoryButton
           $isSelected={selectedCategory === "Buildings"}
           onClick={() => setSelectedCategory("Buildings")}
         >
           Buildings
         </CategoryButton>
         <CategoryButton
-          $isSelected={selectedCategory === "People"}
-          onClick={() => setSelectedCategory("People")}
+          $isSelected={selectedCategory === "Animal"}
+          onClick={() => setSelectedCategory("Animal")}
         >
-          People
+          Animal
+        </CategoryButton>
+        <CategoryButton
+          $isSelected={selectedCategory === "Bird"}
+          onClick={() => setSelectedCategory("Bird")}
+        >
+          Bird
+        </CategoryButton>
+        <CategoryButton
+          $isSelected={selectedCategory === "Insect"}
+          onClick={() => setSelectedCategory("Insect")}
+        >
+          Insect
+        </CategoryButton>
+        <CategoryButton
+          $isSelected={selectedCategory === "Flower"}
+          onClick={() => setSelectedCategory("Flower")}
+        >
+          Flower
+        </CategoryButton>
+        <CategoryButton
+          $isSelected={selectedCategory === "Tree"}
+          onClick={() => setSelectedCategory("Tree")}
+        >
+          Tree
+        </CategoryButton>
+        <CategoryButton
+          $isSelected={selectedCategory === "Rock"}
+          onClick={() => setSelectedCategory("Rock")}
+        >
+          Rock
+        </CategoryButton>
+        <CategoryButton
+          $isSelected={selectedCategory === "Others"}
+          onClick={() => setSelectedCategory("Others")}
+        >
+          Others
         </CategoryButton>
       </CategoryButtonGroup>
       <DraggableCategoryImageList />
