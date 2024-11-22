@@ -296,10 +296,10 @@ export default function App() {
           Insect
         </CategoryButton>
         <CategoryButton
-          $isSelected={selectedCategory === "Flower"}
-          onClick={() => setSelectedCategory("Flower")}
+          $isSelected={selectedCategory === "Plant"}
+          onClick={() => setSelectedCategory("Plant")}
         >
-          Flower
+          Plant
         </CategoryButton>
         <CategoryButton
           $isSelected={selectedCategory === "Tree"}

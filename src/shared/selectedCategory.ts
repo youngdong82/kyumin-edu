@@ -1,7 +1,7 @@
 // store.ts
 import { create } from "zustand";
 
-type category = "Buildings" | "People" | "Animal" | "Bird" | "Insect" | "Flower" | "Tree" | "Rock" | "Others"
+type category = "Buildings" | "People" | "Animal" | "Bird" | "Insect" | "Plant" | "Tree" | "Rock" | "Others"
 
 type State = {
   selectedCategory: category;
