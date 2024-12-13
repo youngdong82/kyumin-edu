@@ -290,17 +290,31 @@ export default function App() {
           Bird
         </CategoryButton>
         <CategoryButton
+          $isSelected={selectedCategory === "Fish"}
+          onClick={() => setSelectedCategory("Fish")}
+        >
+          Fish
+        </CategoryButton>
+        <CategoryButton
           $isSelected={selectedCategory === "Insect"}
           onClick={() => setSelectedCategory("Insect")}
         >
           Insect
         </CategoryButton>
+
         <CategoryButton
-          $isSelected={selectedCategory === "Plant"}
-          onClick={() => setSelectedCategory("Plant")}
+          $isSelected={selectedCategory === "Juknan"}
+          onClick={() => setSelectedCategory("Juknan")}
         >
-          Plant
+          Juknan
         </CategoryButton>
+        <CategoryButton
+          $isSelected={selectedCategory === "Mekuk"}
+          onClick={() => setSelectedCategory("Mekuk")}
+        >
+          Mekuk
+        </CategoryButton>
+
         <CategoryButton
           $isSelected={selectedCategory === "Tree"}
           onClick={() => setSelectedCategory("Tree")}
@@ -312,6 +326,12 @@ export default function App() {
           onClick={() => setSelectedCategory("Rock")}
         >
           Rock
+        </CategoryButton>
+        <CategoryButton
+          $isSelected={selectedCategory === "Figure"}
+          onClick={() => setSelectedCategory("Figure")}
+        >
+          Figure
         </CategoryButton>
         <CategoryButton
           $isSelected={selectedCategory === "Others"}
