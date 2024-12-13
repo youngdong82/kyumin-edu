@@ -243,7 +243,7 @@ const DraggableResizableDiv: React.FC<DraggableResizableDivProps> = ({
         <ButtonGroup
           style={{
             left: `${position.x + size.width / 2}px`,
-            top: `${position.y - 64}px`,
+            top: `${position.y - 74}px`,
             transform: "translateX(-50%)",
           }}
           data-draggable-div
