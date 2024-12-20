@@ -18,9 +18,12 @@ type RatioKey =
 
 const MAX_IMAGE_SIZE = 180;
 
-const DEFAULT_MONITOR = 1080;
-const SHEET_GAP = 100;
+// const DEFAULT_MONITOR = 1080;
+const DEFAULT_MONITOR = 1460;
 // const DEFAULT_MONITOR = 1920;
+// const DEFAULT_MONITOR = window.innerWidth;
+
+const SHEET_GAP = DEFAULT_MONITOR / 4;
 
 export default function App() {
   const [ratio, setRatio] = useState<RatioKey>("wide-16-9");
@@ -416,6 +419,7 @@ const PlaygroundSheet = styled.div`
 
 const CategoryButtonGroup = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 16px;
 `;
