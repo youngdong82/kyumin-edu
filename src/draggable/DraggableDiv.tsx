@@ -7,6 +7,7 @@ interface DraggableResizableDivProps {
   $isSelected: boolean;
   onSelect: () => void;
   parentSize: { width: number; height: number };
+  sheetGap: number;
   $backgroundImage: string;
   initialSize: { width: number; height: number };
   initialPosition: { x: number; y: number };
@@ -17,6 +18,7 @@ const DraggableResizableDiv: React.FC<DraggableResizableDivProps> = ({
   $isSelected,
   onSelect,
   parentSize,
+  sheetGap,
   $backgroundImage,
   initialSize,
   initialPosition,
@@ -35,6 +37,11 @@ const DraggableResizableDiv: React.FC<DraggableResizableDivProps> = ({
   const lastPosition = useRef({ x: 0, y: 0 });
   const initialAspectRatio = useRef(initialSize.width / initialSize.height);
 
+
+  useEffect(() => {
+    console.log("position: ", position);
+  }, [position])
+
   useEffect(() => {
     initialAspectRatio.current = initialSize.width / initialSize.height;
   }, [initialSize]);
@@ -47,9 +54,9 @@ const DraggableResizableDiv: React.FC<DraggableResizableDivProps> = ({
     height: number,
     rotation: number,
   ) => {
-    console.log("rotation: ", rotation);
+    // console.log("rotation: ", rotation);
     const normalizedRotation = ((rotation % 360) + 360) % 360;
-    console.log("normalizedRotation: ", normalizedRotation);
+    // console.log("normalizedRotation: ", normalizedRotation);
     if (normalizedRotation === 90 || normalizedRotation === 270) {
       console.log("width & height");
       return { width: height, height: width };
@@ -67,11 +74,17 @@ const DraggableResizableDiv: React.FC<DraggableResizableDivProps> = ({
     const normalizedRotation = ((rotation % 360) + 360) % 360;
     switch (normalizedRotation) {
       case 90:
-        return { x: x + width / 2 - height / 2, y: y - width / 2 + height / 2 };
+        return {
+          x: x + width / 2 - height / 2,
+          y: y - width / 2 + height / 2
+        };
       case 180:
         return { x, y };
       case 270:
-        return { x: x - width / 2 + height / 2, y: y + width / 2 - height / 2 };
+        return {
+          x: x - width / 2 + height / 2,
+          y: y + width / 2 - height / 2
+        };
       default:
         return { x, y };
     }
@@ -116,8 +129,8 @@ const DraggableResizableDiv: React.FC<DraggableResizableDivProps> = ({
           const newX = snapToGrid(prev.x + dx);
           const newY = snapToGrid(prev.y + dy);
           return {
-            x: Math.max(0, Math.min(newX, parentSize.width - size.width)),
-            y: Math.max(0, Math.min(newY, parentSize.height - size.height)),
+            x: Math.max(-(sheetGap / 2), Math.min(newX, parentSize.width - size.width - (sheetGap / 2))),
+            y: Math.max(-(sheetGap / 2), Math.min(newY, parentSize.height - size.height - (sheetGap / 2))),
           };
         });
 

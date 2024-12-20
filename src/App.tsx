@@ -19,6 +19,7 @@ type RatioKey =
 const MAX_IMAGE_SIZE = 180;
 
 const DEFAULT_MONITOR = 1080;
+const SHEET_GAP = 100;
 // const DEFAULT_MONITOR = 1920;
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
   const [selectedDivId, setSelectedDivId] = useState<string | null>(null);
   const [containerWidth, setContainerWidth] = useState(0);
   const playgroundRef = useRef<HTMLDivElement>(null);
+  const playgroundSheetRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const { selectedCategory, setSelectedCategory } = useStore();
 
@@ -70,6 +72,8 @@ export default function App() {
     return {
       width: containerWidth,
       height: containerWidth / selectedRatio,
+      innerWidth: containerWidth - SHEET_GAP,
+      innerHeight: containerWidth / selectedRatio - SHEET_GAP,
     };
   };
 
@@ -156,8 +160,8 @@ export default function App() {
 
   // html2canvas 사용
   const handleDownload = async () => {
-    if (playgroundRef.current) {
-      const draggableDivs = playgroundRef.current.querySelectorAll(
+    if (playgroundSheetRef.current) {
+      const draggableDivs = playgroundSheetRef.current.querySelectorAll(
         "[data-draggable-div]",
       );
       draggableDivs.forEach((div) => {
@@ -170,7 +174,7 @@ export default function App() {
 
       try {
         const scale = 5; // Increase this value for higher resolution
-        const canvas = await html2canvas(playgroundRef.current, { scale });
+        const canvas = await html2canvas(playgroundSheetRef.current, { scale });
         const dataUrl = canvas.toDataURL("image/jpeg");
         const link = document.createElement("a");
         link.download = "playground.jpg";
@@ -196,8 +200,10 @@ export default function App() {
     setSelectedDivId(id);
   };
 
-  const handlePlaygroundClick = (e: React.MouseEvent) => {
-    if (e.target === playgroundRef.current) {
+  const handlePlaygroundSheetClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (e.target === playgroundRef.current ||
+      e.target === playgroundSheetRef.current) {
       setSelectedDivId(null);
     }
   };
@@ -240,7 +246,7 @@ export default function App() {
       </RatioSection>
       <Playground
         ref={playgroundRef}
-        onClick={handlePlaygroundClick}
+        onClick={handlePlaygroundSheetClick}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
         style={{
@@ -248,21 +254,30 @@ export default function App() {
           height: dimensions.height,
         }}
       >
-        {playgroundImages.map((image) => (
-          <DraggableResizableDiv
-            key={image.id}
-            $isSelected={selectedDivId === image.id}
-            onSelect={() => handleSelectDiv(image.id)}
-            parentSize={{
-              width: playgroundRef.current?.clientWidth || 600,
-              height: playgroundRef.current?.clientHeight || 400,
-            }}
-            $backgroundImage={image.imageUrl}
-            initialSize={{ width: image.width, height: image.height }}
-            initialPosition={{ x: image.x, y: image.y }}
-            onDelete={() => handleDeleteDiv()}
-          />
-        ))}
+        <PlaygroundSheet
+          ref={playgroundSheetRef}
+          onClick={handlePlaygroundSheetClick}
+          style={{
+            width: dimensions.innerWidth,
+            height: dimensions.innerHeight,
+          }}>
+          {playgroundImages.map((image) => (
+            <DraggableResizableDiv
+              key={image.id}
+              $isSelected={selectedDivId === image.id}
+              onSelect={() => handleSelectDiv(image.id)}
+              parentSize={{
+                width: playgroundRef.current?.clientWidth || 600,
+                height: playgroundRef.current?.clientHeight || 400,
+              }}
+              sheetGap={SHEET_GAP}
+              $backgroundImage={image.imageUrl}
+              initialSize={{ width: image.width, height: image.height }}
+              initialPosition={{ x: image.x, y: image.y }}
+              onDelete={() => handleDeleteDiv()}
+            />
+          ))}
+        </PlaygroundSheet>
       </Playground>
       <CategoryButtonGroup>
         <CategoryButton
@@ -392,11 +407,20 @@ const RatioButton = styled.button<{ $isSelected: boolean }>`
 const Playground = styled.div`
   width: 100vw;
   height: auto;
-  border: 1px solid gray;
+  border: 0.5px solid gray;
   position: relative;
   margin: 20px 0;
-  background-color: white;
+  background-color: lightgray;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
+
+const PlaygroundSheet = styled.div`
+  border: 1px solid gray;
+  background-color: white;
+`
 
 const CategoryButtonGroup = styled.div`
   display: flex;
