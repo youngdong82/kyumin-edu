@@ -133,6 +133,16 @@ import o130 from "../asset/test/other/기타130.png";
 import o131 from "../asset/test/other/기타131.png";
 import o132 from "../asset/test/other/기타132.png";
 
+import o133 from "../asset/test/other/기타133.png";
+import o134 from "../asset/test/other/기타134.png";
+import o135 from "../asset/test/other/기타135.png";
+import o136 from "../asset/test/other/기타136.png";
+import o137 from "../asset/test/other/기타137.png";
+import o138 from "../asset/test/other/기타138.png";
+import o139 from "../asset/test/other/기타139.png";
+import o140 from "../asset/test/other/기타140.png";
+import o141 from "../asset/test/other/기타141.png";
+
 
 export const otherImages: ImageData[] = [
   { id: "o_50", imageUrl: o50, width: 0, height: 0 },
@@ -219,6 +229,16 @@ export const otherImages: ImageData[] = [
   { id: "o_130", imageUrl: o130, width: 0, height: 0 },
   { id: "o_131", imageUrl: o131, width: 0, height: 0 },
   { id: "o_132", imageUrl: o132, width: 0, height: 0 },
+
+  { id: "o_133", imageUrl: o133, width: 0, height: 0 },
+  { id: "o_134", imageUrl: o134, width: 0, height: 0 },
+  { id: "o_135", imageUrl: o135, width: 0, height: 0 },
+  { id: "o_136", imageUrl: o136, width: 0, height: 0 },
+  { id: "o_137", imageUrl: o137, width: 0, height: 0 },
+  { id: "o_138", imageUrl: o138, width: 0, height: 0 },
+  { id: "o_139", imageUrl: o139, width: 0, height: 0 },
+  { id: "o_140", imageUrl: o140, width: 0, height: 0 },
+  { id: "o_141", imageUrl: o141, width: 0, height: 0 },
 
 
   { id: "o_1", imageUrl: o1, width: 0, height: 0 },

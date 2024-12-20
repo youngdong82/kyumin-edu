@@ -59,6 +59,16 @@ import a56 from "../asset/test/animal/동물56.png";
 import a57 from "../asset/test/animal/동물57.png";
 import a58 from "../asset/test/animal/동물58.png";
 import a59 from "../asset/test/animal/동물59.png";
+import a60 from "../asset/test/animal/동물60.png";
+import a61 from "../asset/test/animal/동물61.png";
+import a62 from "../asset/test/animal/동물62.png";
+import a63 from "../asset/test/animal/동물63.png";
+import a64 from "../asset/test/animal/동물64.png";
+import a65 from "../asset/test/animal/동물65.png";
+import a66 from "../asset/test/animal/동물66.png";
+import a67 from "../asset/test/animal/동물67.png";
+import a68 from "../asset/test/animal/동물68.png";
+import a69 from "../asset/test/animal/동물69.png";
 
 export const animalImages: ImageData[] = [
   { id: "a_21", imageUrl: a21, width: 0, height: 0 },
@@ -100,6 +110,16 @@ export const animalImages: ImageData[] = [
   { id: "a_57", imageUrl: a57, width: 0, height: 0 },
   { id: "a_58", imageUrl: a58, width: 0, height: 0 },
   { id: "a_59", imageUrl: a59, width: 0, height: 0 },
+  { id: "a_60", imageUrl: a60, width: 0, height: 0 },
+  { id: "a_61", imageUrl: a61, width: 0, height: 0 },
+  { id: "a_62", imageUrl: a62, width: 0, height: 0 },
+  { id: "a_63", imageUrl: a63, width: 0, height: 0 },
+  { id: "a_64", imageUrl: a64, width: 0, height: 0 },
+  { id: "a_65", imageUrl: a65, width: 0, height: 0 },
+  { id: "a_66", imageUrl: a66, width: 0, height: 0 },
+  { id: "a_67", imageUrl: a67, width: 0, height: 0 },
+  { id: "a_68", imageUrl: a68, width: 0, height: 0 },
+  { id: "a_69", imageUrl: a69, width: 0, height: 0 },
 
   { id: "a_1", imageUrl: a1, width: 0, height: 0 },
   { id: "a_2", imageUrl: a2, width: 0, height: 0 },

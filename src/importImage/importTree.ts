@@ -264,6 +264,17 @@ import t261 from "../asset/test/tree/tree261.png";
 import t262 from "../asset/test/tree/tree262.png";
 import t263 from "../asset/test/tree/tree263.png";
 
+import t264 from "../asset/test/tree/tree264.png";
+import t265 from "../asset/test/tree/tree265.png";
+import t266 from "../asset/test/tree/tree266.png";
+import t267 from "../asset/test/tree/tree267.png";
+import t268 from "../asset/test/tree/tree268.png";
+import t269 from "../asset/test/tree/tree269.png";
+import t270 from "../asset/test/tree/tree270.png";
+import t271 from "../asset/test/tree/tree271.png";
+import t272 from "../asset/test/tree/tree272.png";
+import t273 from "../asset/test/tree/tree273.png";
+
 
 export const treeImages: ImageData[] = [
 
@@ -529,5 +540,15 @@ export const treeImages: ImageData[] = [
   { id: "t_260", imageUrl: t260, width: 0, height: 0 },
   { id: "t_261", imageUrl: t261, width: 0, height: 0 },
   { id: "t_262", imageUrl: t262, width: 0, height: 0 },
-  { id: "t_263", imageUrl: t263, width: 0, height: 0 }
+  { id: "t_263", imageUrl: t263, width: 0, height: 0 },
+  { id: "t_264", imageUrl: t264, width: 0, height: 0 },
+  { id: "t_265", imageUrl: t265, width: 0, height: 0 },
+  { id: "t_266", imageUrl: t266, width: 0, height: 0 },
+  { id: "t_267", imageUrl: t267, width: 0, height: 0 },
+  { id: "t_268", imageUrl: t268, width: 0, height: 0 },
+  { id: "t_269", imageUrl: t269, width: 0, height: 0 },
+  { id: "t_270", imageUrl: t270, width: 0, height: 0 },
+  { id: "t_271", imageUrl: t271, width: 0, height: 0 },
+  { id: "t_272", imageUrl: t272, width: 0, height: 0 },
+  { id: "t_273", imageUrl: t273, width: 0, height: 0 },
 ]

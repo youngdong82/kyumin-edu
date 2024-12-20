@@ -49,6 +49,24 @@ import bird_46 from "../asset/test/bird/새46.png";
 import bird_47 from "../asset/test/bird/새47.png";
 import bird_48 from "../asset/test/bird/새48.png";
 import bird_49 from "../asset/test/bird/새49.png";
+import bird_50 from "../asset/test/bird/새50.png";
+import bird_51 from "../asset/test/bird/새51.png";
+import bird_52 from "../asset/test/bird/새52.png";
+import bird_53 from "../asset/test/bird/새53.png";
+import bird_54 from "../asset/test/bird/새54.png";
+import bird_55 from "../asset/test/bird/새55.png";
+import bird_56 from "../asset/test/bird/새56.png";
+import bird_57 from "../asset/test/bird/새57.png";
+import bird_58 from "../asset/test/bird/새58.png";
+import bird_59 from "../asset/test/bird/새59.png";
+import bird_60 from "../asset/test/bird/새60.png";
+import bird_61 from "../asset/test/bird/새61.png";
+import bird_62 from "../asset/test/bird/새62.png";
+import bird_63 from "../asset/test/bird/새63.png";
+import bird_64 from "../asset/test/bird/새64.png";
+import bird_65 from "../asset/test/bird/새65.png";
+import bird_66 from "../asset/test/bird/새66.png";
+import bird_67 from "../asset/test/bird/새67.png";
 
 export const birdImages: ImageData[] = [
   { id: "bd_18", imageUrl: bird_18, width: 0, height: 0 },
@@ -83,6 +101,24 @@ export const birdImages: ImageData[] = [
   { id: "bd_47", imageUrl: bird_47, width: 0, height: 0 },
   { id: "bd_48", imageUrl: bird_48, width: 0, height: 0 },
   { id: "bd_49", imageUrl: bird_49, width: 0, height: 0 },
+  { id: "bd_50", imageUrl: bird_50, width: 0, height: 0 },
+  { id: "bd_51", imageUrl: bird_51, width: 0, height: 0 },
+  { id: "bd_52", imageUrl: bird_52, width: 0, height: 0 },
+  { id: "bd_53", imageUrl: bird_53, width: 0, height: 0 },
+  { id: "bd_54", imageUrl: bird_54, width: 0, height: 0 },
+  { id: "bd_55", imageUrl: bird_55, width: 0, height: 0 },
+  { id: "bd_56", imageUrl: bird_56, width: 0, height: 0 },
+  { id: "bd_57", imageUrl: bird_57, width: 0, height: 0 },
+  { id: "bd_58", imageUrl: bird_58, width: 0, height: 0 },
+  { id: "bd_59", imageUrl: bird_59, width: 0, height: 0 },
+  { id: "bd_60", imageUrl: bird_60, width: 0, height: 0 },
+  { id: "bd_61", imageUrl: bird_61, width: 0, height: 0 },
+  { id: "bd_62", imageUrl: bird_62, width: 0, height: 0 },
+  { id: "bd_63", imageUrl: bird_63, width: 0, height: 0 },
+  { id: "bd_64", imageUrl: bird_64, width: 0, height: 0 },
+  { id: "bd_65", imageUrl: bird_65, width: 0, height: 0 },
+  { id: "bd_66", imageUrl: bird_66, width: 0, height: 0 },
+  { id: "bd_67", imageUrl: bird_67, width: 0, height: 0 },
 
 
   { id: "bd_1", imageUrl: bird_1, width: 0, height: 0 },

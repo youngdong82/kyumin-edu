@@ -11,8 +11,7 @@ import { birdImages } from '../importImage/importBird';
 import { peopleImages } from '../importImage/importPeople';
 import { buildingImages } from '../importImage/importBuilding';
 import { otherImages } from '../importImage/importOther';
-import { juknanImages } from '../importImage/importJuknan';
-import { mekukImages } from '../importImage/importMekuk';
+import { plantImages } from '../importImage/importPlant';
 import { figureImages } from '../importImage/importFigure';
 import { fishImages } from '../importImage/importFish';
 
@@ -35,10 +34,8 @@ const DraggableCategoryImageList: React.FC = () => {
         return birdImages;  //완
       case "Insect":
         return insectImages;  //완
-      case "Juknan":
-        return juknanImages;  //완
-      case "Mekuk":
-        return mekukImages;
+      case "Plant":
+        return plantImages;  //완
       case "Tree":
         return treeImages;  //완
       case "Rock":

@@ -12,7 +12,6 @@ import r9 from "../asset/test/rock/석보9.png";
 import r10 from "../asset/test/rock/석보10.png";
 import r11 from "../asset/test/rock/석보11.png";
 import r12 from "../asset/test/rock/석보12.png";
-import r13 from "../asset/test/rock/석보13.png";
 
 import r14 from "../asset/test/rock/석보14.png";
 import r15 from "../asset/test/rock/석보15.png";
@@ -127,7 +126,7 @@ import r124 from "../asset/test/rock/석보124.png";
 import r125 from "../asset/test/rock/석보125.png";
 import r126 from "../asset/test/rock/석보126.png";
 import r127 from "../asset/test/rock/석보127.png";
-import r128 from "../asset/test/rock/석보128.png";
+
 import r129 from "../asset/test/rock/석보129.png";
 import r130 from "../asset/test/rock/석보130.png";
 import r131 from "../asset/test/rock/석보131.png";
@@ -143,6 +142,18 @@ import r140 from "../asset/test/rock/석보140.png";
 import r141 from "../asset/test/rock/석보141.png";
 import r142 from "../asset/test/rock/석보142.png";
 import r143 from "../asset/test/rock/석보143.png";
+
+import r144 from "../asset/test/rock/석보144.png";
+import r145 from "../asset/test/rock/석보145.png";
+import r146 from "../asset/test/rock/석보146.png";
+import r147 from "../asset/test/rock/석보147.png";
+import r148 from "../asset/test/rock/석보148.png";
+import r149 from "../asset/test/rock/석보149.png";
+import r150 from "../asset/test/rock/석보150.png";
+import r151 from "../asset/test/rock/석보151.png";
+import r152 from "../asset/test/rock/석보152.png";
+
+
 
 export const rockImages: ImageData[] = [
   { id: "r_108", imageUrl: r108, width: 0, height: 0 },
@@ -165,7 +176,7 @@ export const rockImages: ImageData[] = [
   { id: "r_125", imageUrl: r125, width: 0, height: 0 },
   { id: "r_126", imageUrl: r126, width: 0, height: 0 },
   { id: "r_127", imageUrl: r127, width: 0, height: 0 },
-  { id: "r_128", imageUrl: r128, width: 0, height: 0 },
+
   { id: "r_129", imageUrl: r129, width: 0, height: 0 },
   { id: "r_130", imageUrl: r130, width: 0, height: 0 },
   { id: "r_131", imageUrl: r131, width: 0, height: 0 },
@@ -182,6 +193,16 @@ export const rockImages: ImageData[] = [
   { id: "r_142", imageUrl: r142, width: 0, height: 0 },
   { id: "r_143", imageUrl: r143, width: 0, height: 0 },
 
+  { id: "r_144", imageUrl: r144, width: 0, height: 0 },
+  { id: "r_145", imageUrl: r145, width: 0, height: 0 },
+  { id: "r_146", imageUrl: r146, width: 0, height: 0 },
+  { id: "r_147", imageUrl: r147, width: 0, height: 0 },
+  { id: "r_148", imageUrl: r148, width: 0, height: 0 },
+  { id: "r_149", imageUrl: r149, width: 0, height: 0 },
+  { id: "r_150", imageUrl: r150, width: 0, height: 0 },
+  { id: "r_151", imageUrl: r151, width: 0, height: 0 },
+  { id: "r_152", imageUrl: r152, width: 0, height: 0 },
+
 
   { id: "r_1", imageUrl: r1, width: 0, height: 0 },
   { id: "r_2", imageUrl: r2, width: 0, height: 0 },
@@ -195,7 +216,7 @@ export const rockImages: ImageData[] = [
   { id: "r_10", imageUrl: r10, width: 0, height: 0 },
   { id: "r_11", imageUrl: r11, width: 0, height: 0 },
   { id: "r_12", imageUrl: r12, width: 0, height: 0 },
-  { id: "r_13", imageUrl: r13, width: 0, height: 0 },
+
   { id: "r_14", imageUrl: r14, width: 0, height: 0 },
   { id: "r_15", imageUrl: r15, width: 0, height: 0 },
   { id: "r_16", imageUrl: r16, width: 0, height: 0 },

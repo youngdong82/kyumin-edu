@@ -1,5 +1,6 @@
 import { ImageData } from "../shared/types";
 
+import b0 from "../asset/test/building/옥우0.png";
 import b1 from "../asset/test/building/옥우1.png";
 import b2 from "../asset/test/building/옥우2.png";
 import b3 from "../asset/test/building/옥우3.png";
@@ -120,8 +121,25 @@ import b117 from "../asset/test/building/옥우117.png";
 import b118 from "../asset/test/building/옥우118.png";
 import b119 from "../asset/test/building/옥우119.png";
 import b120 from "../asset/test/building/옥우120.png";
+import b121 from "../asset/test/building/옥우121.png";
+import b122 from "../asset/test/building/옥우122.png";
+import b123 from "../asset/test/building/옥우123.png";
+import b124 from "../asset/test/building/옥우124.png";
+import b125 from "../asset/test/building/옥우125.png";
+import b126 from "../asset/test/building/옥우126.png";
+import b127 from "../asset/test/building/옥우127.png";
+import b128 from "../asset/test/building/옥우128.png";
+import b129 from "../asset/test/building/옥우129.png";
+import b130 from "../asset/test/building/옥우130.png";
+import b131 from "../asset/test/building/옥우131.png";
+import b132 from "../asset/test/building/옥우132.png";
+import b133 from "../asset/test/building/옥우133.png";
+import b134 from "../asset/test/building/옥우134.png";
+import b135 from "../asset/test/building/옥우135.png";
+import b136 from "../asset/test/building/옥우136.png";
 
 export const buildingImages: ImageData[] = [
+  { id: "b_0", imageUrl: b0, width: 0, height: 0 },
   { id: "b_1", imageUrl: b1, width: 0, height: 0 },
   { id: "b_2", imageUrl: b2, width: 0, height: 0 },
   { id: "b_3", imageUrl: b3, width: 0, height: 0 },
@@ -242,4 +260,20 @@ export const buildingImages: ImageData[] = [
   { id: "b_118", imageUrl: b118, width: 0, height: 0 },
   { id: "b_119", imageUrl: b119, width: 0, height: 0 },
   { id: "b_120", imageUrl: b120, width: 0, height: 0 },
+  { id: "b_121", imageUrl: b121, width: 0, height: 0 },
+  { id: "b_122", imageUrl: b122, width: 0, height: 0 },
+  { id: "b_123", imageUrl: b123, width: 0, height: 0 },
+  { id: "b_124", imageUrl: b124, width: 0, height: 0 },
+  { id: "b_125", imageUrl: b125, width: 0, height: 0 },
+  { id: "b_126", imageUrl: b126, width: 0, height: 0 },
+  { id: "b_127", imageUrl: b127, width: 0, height: 0 },
+  { id: "b_128", imageUrl: b128, width: 0, height: 0 },
+  { id: "b_129", imageUrl: b129, width: 0, height: 0 },
+  { id: "b_130", imageUrl: b130, width: 0, height: 0 },
+  { id: "b_131", imageUrl: b131, width: 0, height: 0 },
+  { id: "b_132", imageUrl: b132, width: 0, height: 0 },
+  { id: "b_133", imageUrl: b133, width: 0, height: 0 },
+  { id: "b_134", imageUrl: b134, width: 0, height: 0 },
+  { id: "b_135", imageUrl: b135, width: 0, height: 0 },
+  { id: "b_136", imageUrl: b136, width: 0, height: 0 },
 ]

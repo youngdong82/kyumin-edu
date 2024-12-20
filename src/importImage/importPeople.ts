@@ -173,6 +173,27 @@ import p170 from "../asset/test/people/인물170.png";
 import p171 from "../asset/test/people/인물171.png";
 import p172 from "../asset/test/people/인물172.png";
 import p173 from "../asset/test/people/인물173.png";
+import p174 from "../asset/test/people/인물174.png";
+import p175 from "../asset/test/people/인물175.png";
+import p176 from "../asset/test/people/인물176.png";
+import p177 from "../asset/test/people/인물177.png";
+import p178 from "../asset/test/people/인물178.png";
+import p179 from "../asset/test/people/인물179.png";
+import p180 from "../asset/test/people/인물180.png";
+import p181 from "../asset/test/people/인물181.png";
+import p182 from "../asset/test/people/인물182.png";
+import p183 from "../asset/test/people/인물183.png";
+import p184 from "../asset/test/people/인물184.png";
+import p185 from "../asset/test/people/인물185.png";
+import p186 from "../asset/test/people/인물186.png";
+import p187 from "../asset/test/people/인물187.png";
+import p188 from "../asset/test/people/인물188.png";
+import p189 from "../asset/test/people/인물189.png";
+import p190 from "../asset/test/people/인물190.png";
+
+
+
+
 
 export const peopleImages: ImageData[] = [
   { id: "p_128", imageUrl: p128, width: 0, height: 0 },
@@ -221,6 +242,25 @@ export const peopleImages: ImageData[] = [
   { id: "p_171", imageUrl: p171, width: 0, height: 0 },
   { id: "p_172", imageUrl: p172, width: 0, height: 0 },
   { id: "p_173", imageUrl: p173, width: 0, height: 0 },
+
+  { id: "p_174", imageUrl: p174, width: 0, height: 0 },
+  { id: "p_175", imageUrl: p175, width: 0, height: 0 },
+  { id: "p_176", imageUrl: p176, width: 0, height: 0 },
+  { id: "p_177", imageUrl: p177, width: 0, height: 0 },
+  { id: "p_178", imageUrl: p178, width: 0, height: 0 },
+  { id: "p_179", imageUrl: p179, width: 0, height: 0 },
+  { id: "p_180", imageUrl: p180, width: 0, height: 0 },
+  { id: "p_181", imageUrl: p181, width: 0, height: 0 },
+  { id: "p_182", imageUrl: p182, width: 0, height: 0 },
+  { id: "p_183", imageUrl: p183, width: 0, height: 0 },
+  { id: "p_184", imageUrl: p184, width: 0, height: 0 },
+  { id: "p_185", imageUrl: p185, width: 0, height: 0 },
+  { id: "p_186", imageUrl: p186, width: 0, height: 0 },
+  { id: "p_187", imageUrl: p187, width: 0, height: 0 },
+  { id: "p_188", imageUrl: p188, width: 0, height: 0 },
+  { id: "p_189", imageUrl: p189, width: 0, height: 0 },
+  { id: "p_190", imageUrl: p190, width: 0, height: 0 },
+
 
 
   { id: "p_1", imageUrl: p1, width: 0, height: 0 },
