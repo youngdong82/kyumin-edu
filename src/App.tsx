@@ -93,8 +93,8 @@ export default function App() {
     if (!playgroundRect) return;
 
     // Calculate position relative to playground
-    const x = e.clientX - playgroundRect.left;
-    const y = e.clientY - playgroundRect.top;
+    const x = e.clientX - playgroundRect.left - (SHEET_GAP / 2);
+    const y = e.clientY - playgroundRect.top - (SHEET_GAP / 2);
 
     // Get the dropped image data
     const droppedImage = JSON.parse(
@@ -402,10 +402,10 @@ const RatioButton = styled.button<{ $isSelected: boolean }>`
 const Playground = styled.div`
   width: 100vw;
   height: auto;
-  border: 0.5px solid gray;
+  // border: 0.5px solid gray;
   position: relative;
   margin: 20px 0;
-  background-color: lightgray;
+  background-color: #f0f0f0;
 
   display: flex;
   justify-content: center;
@@ -415,6 +415,8 @@ const Playground = styled.div`
 const PlaygroundSheet = styled.div`
   border: 1px solid gray;
   background-color: white;
+
+  overflow: hidden;
 `
 
 const CategoryButtonGroup = styled.div`

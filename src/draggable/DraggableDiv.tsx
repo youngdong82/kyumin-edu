@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import styled from "styled-components";
+import ButtonGroupPortal from "./ButtonGroupPortal"; // 위에서 만든 Portal 컴포넌트
+
 
 const GRID_SIZE = 5; // Size of each grid cell in pixels
 
@@ -253,37 +255,36 @@ const DraggableResizableDiv: React.FC<DraggableResizableDivProps> = ({
   return (
     <Wrapper>
       {$isSelected && (
-        <ButtonGroup
-          style={{
-            left: `${position.x + size.width / 2}px`,
-            top: `${position.y - 74}px`,
-            transform: "translateX(-50%)",
-          }}
-          data-draggable-div
+        <ButtonGroupPortal
+          x={position.x + (size.width / 2) - 161 + sheetGap}
+          y={position.y - 103 + sheetGap}
         >
-          <ControlButtonBox>
-            <ControlButton onClick={toggleFix} data-resize-handle>
-              {isFixed ? "Free" : "Fix"}
-            </ControlButton>
-            <ControlButton onClick={adjustRatio} data-resize-handle>
-              Ratio
-            </ControlButton>
-            {/* <ControlButton onClick={rotateRight} data-resize-handle>
-            ↻
-          </ControlButton> */}
-            <ControlButton onClick={flipHorizontal} data-resize-handle>
-              ⇄
-            </ControlButton>
-            <ControlButton onClick={deleteDiv} data-resize-handle>
-              X
-            </ControlButton>
-          </ControlButtonBox>
-          <ControlButtonBox>
-            <ControlButton>depth: {zIndex}</ControlButton>
-            <ControlButton onClick={increaseZIndex}>+</ControlButton>
-            <ControlButton onClick={decreaseZIndex}>-</ControlButton>
-          </ControlButtonBox>
-        </ButtonGroup>
+          <ButtonGroup
+            style={{
+              transform: "translateX(-50%)"
+            }}
+          >
+            <ControlButtonBox>
+              <ControlButton onClick={toggleFix} data-resize-handle>
+                {isFixed ? "Free" : "Fix"}
+              </ControlButton>
+              <ControlButton onClick={adjustRatio} data-resize-handle>
+                Ratio
+              </ControlButton>
+              <ControlButton onClick={flipHorizontal} data-resize-handle>
+                ⇄
+              </ControlButton>
+              <ControlButton onClick={deleteDiv} data-resize-handle>
+                X
+              </ControlButton>
+            </ControlButtonBox>
+            <ControlButtonBox>
+              <ControlButton>depth: {zIndex}</ControlButton>
+              <ControlButton onClick={increaseZIndex}>+</ControlButton>
+              <ControlButton onClick={decreaseZIndex}>-</ControlButton>
+            </ControlButtonBox>
+          </ButtonGroup>
+        </ButtonGroupPortal>
       )}
       <StyledDiv
         ref={divRef}
