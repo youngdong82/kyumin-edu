@@ -18,6 +18,7 @@ const VersatileComp = () => {
   });
   const isResizing = useRef(false);
   const isMoving = useRef(false);
+  const diffCenter = useRef({ diffX: 0, diffY: 0 });
   const dragHandle = useRef<string | null>(null);
 
   useEffect(() => {
@@ -27,6 +28,9 @@ const VersatileComp = () => {
     });
   }, [corners]);
 
+  // ------------------------------------------------------------
+  // Resize
+  // ------------------------------------------------------------
   const handleMouseDown = (e: React.MouseEvent, handle: string) => {
     e.stopPropagation();
     isResizing.current = true;
@@ -115,29 +119,52 @@ const VersatileComp = () => {
     };
   }, []);
 
+
+  // ------------------------------------------------------------
+  // Move
+  // ------------------------------------------------------------
   const handleMouseDownForMove = (e: React.MouseEvent) => {
     e.stopPropagation();
     isMoving.current = true;
+    const diffX = e.clientX - corners.center.x;
+    const diffY = e.clientY - corners.center.y;
+    diffCenter.current = { diffX, diffY };
   }
 
-  const handleMouseMoveForMove = (e: React.MouseEvent) => {
-    if (isMoving.current) {
-      setCorners({
-        center: {
-          x: e.clientX,
-          y: e.clientY
-        },
-        nw: { x: e.clientX - (size.width / 2), y: e.clientY - (size.height / 2) },
-        ne: { x: e.clientX + (size.width / 2), y: e.clientY - (size.height / 2) },
-        sw: { x: e.clientX - (size.width / 2), y: e.clientY + (size.height / 2) },
-        se: { x: e.clientX + (size.width / 2), y: e.clientY + (size.height / 2) },
-      })
+  useEffect(() => {
+    const handleMouseMoveForMove = (e: MouseEvent) => {
+      if (isMoving.current) {
+        const dx = e.clientX - diffCenter.current.diffX;
+        const dy = e.clientY - diffCenter.current.diffY;
+
+        setCorners({
+          center: {
+            x: dx,
+            y: dy
+          },
+          nw: { x: dx - (size.width / 2), y: dy - (size.height / 2) },
+          ne: { x: dx + (size.width / 2), y: dy - (size.height / 2) },
+          sw: { x: dx - (size.width / 2), y: dy + (size.height / 2) },
+          se: { x: dx + (size.width / 2), y: dy + (size.height / 2) },
+        })
+      }
     }
-  }
 
-  const handleMouseUpForMove = () => {
-    isMoving.current = false;
-  }
+    const handleMouseUpForMove = () => {
+      isMoving.current = false;
+      diffCenter.current = { diffX: 0, diffY: 0 };
+    }
+
+    document.addEventListener("mousemove", handleMouseMoveForMove);
+    document.addEventListener("mouseup", handleMouseUpForMove);
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMoveForMove);
+      document.removeEventListener("mouseup", handleMouseUpForMove);
+    };
+  }, []);
+
+
 
 
   return (
@@ -199,8 +226,6 @@ const VersatileComp = () => {
           height: size.height * 0.8
         }}
         onMouseDown={(e) => handleMouseDownForMove(e)}
-        onMouseMove={(e) => handleMouseMoveForMove(e)}
-        onMouseUp={handleMouseUpForMove}
       />
     </VersatileDiv>
   );
