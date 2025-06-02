@@ -4,13 +4,21 @@ import styled from "styled-components";
 const cornerSize = 10;
 const centerSize = 10;
 
-const VersatileComp = () => {
+interface VersatileCompProps {
+  id: number;
+  isSelected: boolean;
+  onSelect: (id: number) => void;
+  dropPosition: { x: number, y: number };
+  initialSize: { width: number, height: number };
+}
+
+const VersatileComp = ({ id, isSelected, onSelect, dropPosition, initialSize }: VersatileCompProps) => {
   const [corners, setCorners] = useState({
-    nw: { x: 100, y: 100 },
-    ne: { x: 300, y: 100 },
-    sw: { x: 100, y: 300 },
-    se: { x: 300, y: 300 },
-    center: { x: 200, y: 200 }
+    nw: { x: dropPosition.x - (initialSize.width / 2), y: dropPosition.y - (initialSize.height / 2) },
+    ne: { x: dropPosition.x + (initialSize.width / 2), y: dropPosition.y - (initialSize.height / 2) },
+    sw: { x: dropPosition.x - (initialSize.width / 2), y: dropPosition.y + (initialSize.height / 2) },
+    se: { x: dropPosition.x + (initialSize.width / 2), y: dropPosition.y + (initialSize.height / 2) },
+    center: { x: dropPosition.x, y: dropPosition.y }
   });
   const [size, setSize] = useState({
     width: corners.ne.x - corners.nw.x,
@@ -125,6 +133,7 @@ const VersatileComp = () => {
   // ------------------------------------------------------------
   const handleMouseDownForMove = (e: React.MouseEvent) => {
     e.stopPropagation();
+    onSelect(id);
     isMoving.current = true;
     const diffX = e.clientX - corners.center.x;
     const diffY = e.clientY - corners.center.y;
@@ -177,39 +186,43 @@ const VersatileComp = () => {
         height: size.height
       }}
     >
+      {isSelected && (
+        <>
 
-      <CornerHandle
-        style={{
-          position: 'fixed',
-          left: corners.nw.x - cornerSize / 2,
-          top: corners.nw.y - cornerSize / 2
-        }}
-        onMouseDown={(e) => handleMouseDown(e, "nw")}
-      />
-      <CornerHandle
-        style={{
-          position: 'fixed',
-          left: corners.ne.x - cornerSize / 2,
-          top: corners.ne.y - cornerSize / 2
-        }}
-        onMouseDown={(e) => handleMouseDown(e, "ne")}
-      />
-      <CornerHandle
-        style={{
-          position: 'fixed',
-          left: corners.sw.x - cornerSize / 2,
-          top: corners.sw.y - cornerSize / 2
-        }}
-        onMouseDown={(e) => handleMouseDown(e, "sw")}
-      />
-      <CornerHandle
-        style={{
-          position: 'fixed',
-          left: corners.se.x - cornerSize / 2,
-          top: corners.se.y - cornerSize / 2
-        }}
-        onMouseDown={(e) => handleMouseDown(e, "se")}
-      />
+          <CornerHandle
+            style={{
+              position: 'fixed',
+              left: corners.nw.x - cornerSize / 2,
+              top: corners.nw.y - cornerSize / 2
+            }}
+            onMouseDown={(e) => handleMouseDown(e, "nw")}
+          />
+          <CornerHandle
+            style={{
+              position: 'fixed',
+              left: corners.ne.x - cornerSize / 2,
+              top: corners.ne.y - cornerSize / 2
+            }}
+            onMouseDown={(e) => handleMouseDown(e, "ne")}
+          />
+          <CornerHandle
+            style={{
+              position: 'fixed',
+              left: corners.sw.x - cornerSize / 2,
+              top: corners.sw.y - cornerSize / 2
+            }}
+            onMouseDown={(e) => handleMouseDown(e, "sw")}
+          />
+          <CornerHandle
+            style={{
+              position: 'fixed',
+              left: corners.se.x - cornerSize / 2,
+              top: corners.se.y - cornerSize / 2
+            }}
+            onMouseDown={(e) => handleMouseDown(e, "se")}
+          />
+        </>
+      )}
       <CenterHandle
         style={{
           position: 'fixed',
