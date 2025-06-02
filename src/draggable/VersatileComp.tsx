@@ -10,9 +10,10 @@ interface VersatileCompProps {
   onSelect: (id: number) => void;
   dropPosition: { x: number, y: number };
   initialSize: { width: number, height: number };
+  imageSrc: string;
 }
 
-const VersatileComp = ({ id, isSelected, onSelect, dropPosition, initialSize }: VersatileCompProps) => {
+const VersatileComp = ({ id, isSelected, onSelect, dropPosition, initialSize, imageSrc }: VersatileCompProps) => {
   const [corners, setCorners] = useState({
     nw: { x: dropPosition.x - (initialSize.width / 2), y: dropPosition.y - (initialSize.height / 2) },
     ne: { x: dropPosition.x + (initialSize.width / 2), y: dropPosition.y - (initialSize.height / 2) },
@@ -188,7 +189,6 @@ const VersatileComp = ({ id, isSelected, onSelect, dropPosition, initialSize }: 
     >
       {isSelected && (
         <>
-
           <CornerHandle
             style={{
               position: 'fixed',
@@ -221,26 +221,38 @@ const VersatileComp = ({ id, isSelected, onSelect, dropPosition, initialSize }: 
             }}
             onMouseDown={(e) => handleMouseDown(e, "se")}
           />
+          <CenterHandle
+            style={{
+              position: 'fixed',
+              left: corners.center.x - centerSize / 2,
+              top: corners.center.y - centerSize / 2
+            }}
+          />
         </>
       )}
-      <CenterHandle
-        style={{
-          position: 'fixed',
-          left: corners.center.x - centerSize / 2,
-          top: corners.center.y - centerSize / 2
-        }}
-      />
-      <BigCenterHandle
+
+      <CenterImage
+        src={imageSrc}
+        alt="center image"
         style={{
           position: 'fixed',
           left: corners.center.x - (size.width * 0.8) / 2,
           top: corners.center.y - (size.height * 0.8) / 2,
           width: size.width * 0.8,
-          height: size.height * 0.8
+          height: size.height * 0.8,
+        }}
+      />
+      <BigCenterHandle
+        style={{
+          position: 'fixed',
+          left: corners.center.x - (size.width * 0.9) / 2,
+          top: corners.center.y - (size.height * 0.9) / 2,
+          width: size.width * 0.9,
+          height: size.height * 0.9
         }}
         onMouseDown={(e) => handleMouseDownForMove(e)}
       />
-    </VersatileDiv>
+    </VersatileDiv >
   );
 }
 
@@ -261,15 +273,24 @@ const CenterHandle = styled.div`
   width: 10px;
   height: 10px;
   background-color: #EF4444;
-  z-index: 3;
+  z-index: 5;
 `;
 
 const BigCenterHandle = styled.div`
+  opacity: 0.2;
+  background-color: transparent;
   background-color: #FE9135;
-  z-index: 2;
+  z-index: 4;
   &:hover {
     background-color: #E05F1D;
   }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const CenterImage = styled.img`
+  z-index: 3;
 `;
 
 const VersatileDiv = styled.div`

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import VersatileComp from './draggable/VersatileComp';
+import 동물1 from './asset/test/animal/동물1.png'
+import 동물2 from './asset/test/animal/동물2.png'
+import 동물3 from './asset/test/animal/동물3.png'
 
 
 export default function App() {
@@ -9,6 +12,7 @@ export default function App() {
     id: number;
     dropPosition: { x: number, y: number };
     initialSize: { width: number, height: number };
+    image: string;
   }[]>(
     []
   );
@@ -21,12 +25,14 @@ export default function App() {
     setVersatileContainer([{
       id: 1,
       dropPosition: { x: 400, y: 100 },
-      initialSize: { width: 200, height: 100 }
+      initialSize: { width: 200, height: 100 },
+      image: 동물1
     },
     {
       id: 2,
       dropPosition: { x: 200, y: 600 },
-      initialSize: { width: 100, height: 300 }
+      initialSize: { width: 100, height: 300 },
+      image: 동물2
     }]);
   }, []);
 
@@ -47,6 +53,7 @@ export default function App() {
           onSelect={handleSelect}
           dropPosition={item.dropPosition}
           initialSize={item.initialSize}
+          imageSrc={item.image}
         />
       ))}
       <ButtonGroup>
