@@ -16,9 +16,9 @@ const VersatileComp = () => {
     width: corners.ne.x - corners.nw.x,
     height: corners.sw.y - corners.nw.y
   });
-  const isDragging = useRef(false);
+  const isResizing = useRef(false);
+  const isMoving = useRef(false);
   const dragHandle = useRef<string | null>(null);
-
 
   useEffect(() => {
     setSize({
@@ -29,14 +29,13 @@ const VersatileComp = () => {
 
   const handleMouseDown = (e: React.MouseEvent, handle: string) => {
     e.stopPropagation();
-    isDragging.current = true;
+    isResizing.current = true;
     dragHandle.current = handle;
   };
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging.current) return;
-
+    const handleMouseMoveForResize = (e: MouseEvent) => {
+      if (!isResizing.current) return;
       switch (dragHandle.current) {
         case "nw": // 왼쪽 위
           setCorners(prev => {
@@ -102,18 +101,44 @@ const VersatileComp = () => {
     };
 
     const handleMouseUp = () => {
-      isDragging.current = false;
+      isResizing.current = false;
+      isMoving.current = false;
       dragHandle.current = null;
     };
 
-    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mousemove", handleMouseMoveForResize);
     document.addEventListener("mouseup", handleMouseUp);
 
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mousemove", handleMouseMoveForResize);
       document.removeEventListener("mouseup", handleMouseUp);
     };
   }, []);
+
+  const handleMouseDownForMove = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    isMoving.current = true;
+  }
+
+  const handleMouseMoveForMove = (e: React.MouseEvent) => {
+    if (isMoving.current) {
+      setCorners({
+        center: {
+          x: e.clientX,
+          y: e.clientY
+        },
+        nw: { x: e.clientX - (size.width / 2), y: e.clientY - (size.height / 2) },
+        ne: { x: e.clientX + (size.width / 2), y: e.clientY - (size.height / 2) },
+        sw: { x: e.clientX - (size.width / 2), y: e.clientY + (size.height / 2) },
+        se: { x: e.clientX + (size.width / 2), y: e.clientY + (size.height / 2) },
+      })
+    }
+  }
+
+  const handleMouseUpForMove = () => {
+    isMoving.current = false;
+  }
+
 
   return (
     <VersatileDiv
@@ -173,6 +198,9 @@ const VersatileComp = () => {
           width: size.width * 0.8,
           height: size.height * 0.8
         }}
+        onMouseDown={(e) => handleMouseDownForMove(e)}
+        onMouseMove={(e) => handleMouseMoveForMove(e)}
+        onMouseUp={handleMouseUpForMove}
       />
     </VersatileDiv>
   );
@@ -201,6 +229,9 @@ const CenterHandle = styled.div`
 const BigCenterHandle = styled.div`
   background-color: #FE9135;
   z-index: 2;
+  &:hover {
+    background-color: #E05F1D;
+  }
 `;
 
 const VersatileDiv = styled.div`
