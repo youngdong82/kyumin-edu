@@ -13,6 +13,7 @@ export default function App() {
     dropPosition: { x: number, y: number };
     initialSize: { width: number, height: number };
     image: string;
+    rotateState: number;
   }[]>(
     []
   );
@@ -26,13 +27,15 @@ export default function App() {
       id: 1,
       dropPosition: { x: 400, y: 100 },
       initialSize: { width: 200, height: 100 },
-      image: 동물1
+      image: 동물1,
+      rotateState: 0
     },
     {
       id: 2,
       dropPosition: { x: 200, y: 600 },
       initialSize: { width: 100, height: 300 },
-      image: 동물2
+      image: 동물2,
+      rotateState: 0
     }]);
   }, []);
 
@@ -42,6 +45,18 @@ export default function App() {
       setSelectedId(null);
     }
   };
+
+  const handleRotateLeft = () => {
+    if (selectedId !== null) {
+      setVersatileContainer(versatileContainer.map((each) => each.id === selectedId ? { ...each, rotateState: each.rotateState - 1 } : each));
+    }
+  }
+
+  const handleRotateRight = () => {
+    if (selectedId !== null) {
+      setVersatileContainer(versatileContainer.map((each) => each.id === selectedId ? { ...each, rotateState: each.rotateState + 1 } : each));
+    }
+  }
 
   return (
     <Main>
@@ -54,6 +69,7 @@ export default function App() {
           dropPosition={item.dropPosition}
           initialSize={item.initialSize}
           imageSrc={item.image}
+          rotateState={item.rotateState}
         />
       ))}
       <ButtonGroup>
@@ -70,12 +86,12 @@ export default function App() {
           <ControlButton onClick={handleDelete} data-resize-handle>
             X
           </ControlButton>
-          {/* <ControlButton onClick={(e) => handleRotateLeft(e)} data-resize-handle>
+          <ControlButton onClick={handleRotateLeft} data-resize-handle>
             ↺
           </ControlButton>
-          <ControlButton onClick={(e) => handleRotateRight(e)} data-resize-handle>
+          <ControlButton onClick={handleRotateRight} data-resize-handle>
             ↻
-          </ControlButton> */}
+          </ControlButton>
         </ControlButtonBox>
         {/* <ControlButtonBox>
           <ControlButton>depth:{zIndex}
