@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
+import { useRotatedImage } from "../shared/useRotateImg";
+import { FrameCoords, Size } from '../shared/TypeRepository';
+import { frameCoordsWithRotate } from '../shared/frameCoordsWithRotate';
 
 const cornerSize = 10;
 const centerSize = 10;
@@ -11,17 +14,15 @@ interface VersatileCompProps {
   dropPosition: { x: number, y: number };
   initialSize: { width: number, height: number };
   imageSrc: string;
+  rotateState: number;
 }
 
-const VersatileComp = ({ id, isSelected, onSelect, dropPosition, initialSize, imageSrc }: VersatileCompProps) => {
-  const [corners, setCorners] = useState({
-    nw: { x: dropPosition.x - (initialSize.width / 2), y: dropPosition.y - (initialSize.height / 2) },
-    ne: { x: dropPosition.x + (initialSize.width / 2), y: dropPosition.y - (initialSize.height / 2) },
-    sw: { x: dropPosition.x - (initialSize.width / 2), y: dropPosition.y + (initialSize.height / 2) },
-    se: { x: dropPosition.x + (initialSize.width / 2), y: dropPosition.y + (initialSize.height / 2) },
-    center: { x: dropPosition.x, y: dropPosition.y }
-  });
-  const [size, setSize] = useState({
+
+const VersatileComp = ({ id, isSelected, onSelect, dropPosition, initialSize, imageSrc, rotateState }: VersatileCompProps) => {
+
+  const [corners, setCorners] = useState<FrameCoords>(frameCoordsWithRotate(dropPosition, initialSize, false));
+
+  const [size, setSize] = useState<Size>({
     width: corners.ne.x - corners.nw.x,
     height: corners.sw.y - corners.nw.y
   });
@@ -29,6 +30,7 @@ const VersatileComp = ({ id, isSelected, onSelect, dropPosition, initialSize, im
   const isMoving = useRef(false);
   const diffCenter = useRef({ diffX: 0, diffY: 0 });
   const dragHandle = useRef<string | null>(null);
+  const prevRotateState = useRef(rotateState);
 
   useEffect(() => {
     setSize({
@@ -147,16 +149,16 @@ const VersatileComp = ({ id, isSelected, onSelect, dropPosition, initialSize, im
         const dx = e.clientX - diffCenter.current.diffX;
         const dy = e.clientY - diffCenter.current.diffY;
 
-        setCorners({
+        setCorners(prev => ({
           center: {
             x: dx,
             y: dy
           },
-          nw: { x: dx - (size.width / 2), y: dy - (size.height / 2) },
-          ne: { x: dx + (size.width / 2), y: dy - (size.height / 2) },
-          sw: { x: dx - (size.width / 2), y: dy + (size.height / 2) },
-          se: { x: dx + (size.width / 2), y: dy + (size.height / 2) },
-        })
+          nw: { x: dx - (prev.ne.x - prev.nw.x) / 2, y: dy - (prev.sw.y - prev.nw.y) / 2 },
+          ne: { x: dx + (prev.ne.x - prev.nw.x) / 2, y: dy - (prev.sw.y - prev.nw.y) / 2 },
+          sw: { x: dx - (prev.ne.x - prev.nw.x) / 2, y: dy + (prev.sw.y - prev.nw.y) / 2 },
+          se: { x: dx + (prev.ne.x - prev.nw.x) / 2, y: dy + (prev.sw.y - prev.nw.y) / 2 },
+        }));
       }
     }
 
@@ -174,6 +176,19 @@ const VersatileComp = ({ id, isSelected, onSelect, dropPosition, initialSize, im
     };
   }, []);
 
+  // ------------------------------------------------------------
+  // Rotate
+  // ------------------------------------------------------------
+  const rotatedImageSrc = useRotatedImage(imageSrc, rotateState * 90);
+
+  useEffect(() => {
+    console.log('rotateState useEffect!!!');
+    if (prevRotateState.current !== rotateState) {
+      console.log('rotateState changed:', rotateState);
+      setCorners((prev) => frameCoordsWithRotate(prev.center, size, true));
+      prevRotateState.current = rotateState;
+    }
+  }, [rotateState]);
 
 
 
@@ -232,7 +247,7 @@ const VersatileComp = ({ id, isSelected, onSelect, dropPosition, initialSize, im
       )}
 
       <CenterImage
-        src={imageSrc}
+        src={rotatedImageSrc || imageSrc}
         alt="center image"
         style={{
           position: 'fixed',
