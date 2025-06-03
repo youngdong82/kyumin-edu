@@ -29,4 +29,5 @@ export interface VersatileImage {
   imageSrc: string;
   rotateState: number;
   zIndex: number;
+  isFixed: boolean;
 }

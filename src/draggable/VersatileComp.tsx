@@ -14,10 +14,8 @@ interface VersatileCompProps {
 }
 
 
-const VersatileComp = ({ isSelected, onSelect, data: { id, dropPosition, initialSize, imageSrc, rotateState, zIndex } }: VersatileCompProps) => {
-
+const VersatileComp = ({ isSelected, onSelect, data: { id, dropPosition, initialSize, imageSrc, rotateState, zIndex, isFixed } }: VersatileCompProps) => {
   const [corners, setCorners] = useState<FrameCoords>(frameCoordsWithRotate(dropPosition, initialSize, false));
-
   const [size, setSize] = useState<Size>({
     width: corners.ne.x - corners.nw.x,
     height: corners.sw.y - corners.nw.y
@@ -40,12 +38,14 @@ const VersatileComp = ({ isSelected, onSelect, data: { id, dropPosition, initial
   // ------------------------------------------------------------
   const handleMouseDown = (e: React.MouseEvent, handle: string) => {
     e.stopPropagation();
+    if (isFixed) return;
     isResizing.current = true;
     dragHandle.current = handle;
   };
 
   useEffect(() => {
     const handleMouseMoveForResize = (e: MouseEvent) => {
+      if (isFixed) return;
       if (!isResizing.current) return;
       switch (dragHandle.current) {
         case "nw": // 왼쪽 위
@@ -124,7 +124,7 @@ const VersatileComp = ({ isSelected, onSelect, data: { id, dropPosition, initial
       document.removeEventListener("mousemove", handleMouseMoveForResize);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, []);
+  }, [isFixed]);
 
 
   // ------------------------------------------------------------
@@ -133,6 +133,7 @@ const VersatileComp = ({ isSelected, onSelect, data: { id, dropPosition, initial
   const handleMouseDownForMove = (e: React.MouseEvent) => {
     e.stopPropagation();
     onSelect(id);
+    if (isFixed) return;
     isMoving.current = true;
     const diffX = e.clientX - corners.center.x;
     const diffY = e.clientY - corners.center.y;
@@ -141,6 +142,7 @@ const VersatileComp = ({ isSelected, onSelect, data: { id, dropPosition, initial
 
   useEffect(() => {
     const handleMouseMoveForMove = (e: MouseEvent) => {
+      if (isFixed) return;
       if (isMoving.current) {
         const dx = e.clientX - diffCenter.current.diffX;
         const dy = e.clientY - diffCenter.current.diffY;
@@ -170,7 +172,7 @@ const VersatileComp = ({ isSelected, onSelect, data: { id, dropPosition, initial
       document.removeEventListener("mousemove", handleMouseMoveForMove);
       document.removeEventListener("mouseup", handleMouseUpForMove);
     };
-  }, []);
+  }, [isFixed]);
 
   // ------------------------------------------------------------
   // Rotate

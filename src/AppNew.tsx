@@ -5,6 +5,7 @@ import 동물1 from './asset/test/animal/동물1.png'
 import 동물2 from './asset/test/animal/동물2.png'
 import 동물3 from './asset/test/animal/동물3.png'
 import { VersatileImage } from './shared/TypeRepository';
+import { flipImage } from './shared/flipImage';
 
 
 export default function App() {
@@ -24,7 +25,8 @@ export default function App() {
       initialSize: { width: 200, height: 100 },
       imageSrc: 동물1,
       rotateState: 0,
-      zIndex: 1
+      zIndex: 1,
+      isFixed: false,
     },
     {
       id: 2,
@@ -32,9 +34,20 @@ export default function App() {
       initialSize: { width: 100, height: 300 },
       imageSrc: 동물2,
       rotateState: 0,
-      zIndex: 2
+      zIndex: 2,
+      isFixed: false,
     }]);
   }, []);
+
+  const toggleFix = () => {
+    if (selectedVersatile !== null) {
+      const newContainer = versatileContainer.map((each) =>
+        each.id === selectedVersatile.id ? { ...each, isFixed: !each.isFixed } : each
+      );
+      setVersatileContainer(newContainer);
+      setSelectedVersatile({ ...selectedVersatile, isFixed: !selectedVersatile.isFixed });
+    }
+  }
 
   const handleDelete = () => {
     if (selectedVersatile !== null) {
@@ -44,13 +57,13 @@ export default function App() {
   };
 
   const handleRotateLeft = () => {
-    if (selectedVersatile !== null) {
+    if (selectedVersatile !== null && !selectedVersatile.isFixed) {
       setVersatileContainer(versatileContainer.map((each) => each.id === selectedVersatile.id ? { ...each, rotateState: each.rotateState - 1 } : each));
     }
   }
 
   const handleRotateRight = () => {
-    if (selectedVersatile !== null) {
+    if (selectedVersatile !== null && !selectedVersatile.isFixed) {
       setVersatileContainer(versatileContainer.map((each) => each.id === selectedVersatile.id ? { ...each, rotateState: each.rotateState + 1 } : each));
     }
   }
@@ -75,6 +88,29 @@ export default function App() {
     }
   }
 
+  const flipHorizontal = async () => {
+    if (selectedVersatile !== null && !selectedVersatile.isFixed) {
+      console.log('flipHorizontal');
+      const newImageSrc = await flipImage(selectedVersatile.imageSrc, 'horizontal');
+      setVersatileContainer(versatileContainer.map((each) => each.id === selectedVersatile.id ? {
+        ...each,
+        imageSrc: newImageSrc
+      } : each));
+      setSelectedVersatile({ ...selectedVersatile, imageSrc: newImageSrc || selectedVersatile.imageSrc });
+    }
+  }
+  const flipVertical = async () => {
+    if (selectedVersatile !== null && !selectedVersatile.isFixed) {
+      console.log('flipVertical');
+      const newImageSrc = await flipImage(selectedVersatile.imageSrc, 'vertical');
+      setVersatileContainer(versatileContainer.map((each) => each.id === selectedVersatile.id ? {
+        ...each,
+        imageSrc: newImageSrc
+      } : each));
+      setSelectedVersatile({ ...selectedVersatile, imageSrc: newImageSrc || selectedVersatile.imageSrc });
+    }
+  }
+
   return (
     <Main>
       <VersatileContainer>
@@ -90,9 +126,19 @@ export default function App() {
       {selectedVersatile && (
         <ButtonGroup>
           <ControlButtonBox>
+            <ControlButton onClick={toggleFix} data-resize-handle>
+              {selectedVersatile.isFixed ? "Free" : "Fix"}
+            </ControlButton>
             <ControlButton onClick={handleDelete} data-resize-handle>
               X
             </ControlButton>
+          </ControlButtonBox>
+          <ControlButtonBox>
+            <ControlButton>depth:{selectedVersatile.zIndex}</ControlButton>
+            <ControlButton onClick={increaseZIndex}>+</ControlButton>
+            <ControlButton onClick={decreaseZIndex}>-</ControlButton>
+          </ControlButtonBox>
+          <ControlButtonBox>
             <ControlButton onClick={handleRotateLeft} data-resize-handle>
               ↺
             </ControlButton>
@@ -101,13 +147,19 @@ export default function App() {
             </ControlButton>
           </ControlButtonBox>
           <ControlButtonBox>
-            <ControlButton>depth:{selectedVersatile.zIndex}</ControlButton>
-            <ControlButton onClick={increaseZIndex}>+</ControlButton>
-            <ControlButton onClick={decreaseZIndex}>-</ControlButton>
+            {/* <ControlButton onClick={adjustRatio} data-resize-handle>
+            Ratio
+          </ControlButton> */}
+            <ControlButton onClick={flipHorizontal} data-resize-handle>
+              ⇄
+            </ControlButton>
+            <ControlButton onClick={flipVertical} data-resize-handle>
+              ⇅
+            </ControlButton>
           </ControlButtonBox>
         </ButtonGroup>
       )}
-    </Main>
+    </Main >
   );
 }
 
@@ -130,7 +182,9 @@ const ButtonGroup = styled.div`
   position: absolute;
   bottom: 100px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 5px;
   z-index: 100;
   white-space: nowrap;
