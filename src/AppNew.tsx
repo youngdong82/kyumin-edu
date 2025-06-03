@@ -4,22 +4,17 @@ import VersatileComp from './draggable/VersatileComp';
 import 동물1 from './asset/test/animal/동물1.png'
 import 동물2 from './asset/test/animal/동물2.png'
 import 동물3 from './asset/test/animal/동물3.png'
+import { VersatileImage } from './shared/TypeRepository';
 
 
 export default function App() {
-  const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [versatileContainer, setVersatileContainer] = useState<{
-    id: number;
-    dropPosition: { x: number, y: number };
-    initialSize: { width: number, height: number };
-    image: string;
-    rotateState: number;
-  }[]>(
+  const [selectedVersatile, setSelectedVersatile] = useState<VersatileImage | null>(null);
+  const [versatileContainer, setVersatileContainer] = useState<VersatileImage[]>(
     []
   );
 
   const handleSelect = (id: number) => {
-    setSelectedId(id);
+    setSelectedVersatile(versatileContainer.find((each) => each.id === id) || null);
   }
 
   useEffect(() => {
@@ -27,80 +22,92 @@ export default function App() {
       id: 1,
       dropPosition: { x: 400, y: 100 },
       initialSize: { width: 200, height: 100 },
-      image: 동물1,
-      rotateState: 0
+      imageSrc: 동물1,
+      rotateState: 0,
+      zIndex: 1
     },
     {
       id: 2,
       dropPosition: { x: 200, y: 600 },
       initialSize: { width: 100, height: 300 },
-      image: 동물2,
-      rotateState: 0
+      imageSrc: 동물2,
+      rotateState: 0,
+      zIndex: 2
     }]);
   }, []);
 
   const handleDelete = () => {
-    if (selectedId !== null) {
-      setVersatileContainer(versatileContainer.filter((each) => each.id !== selectedId));
-      setSelectedId(null);
+    if (selectedVersatile !== null) {
+      setVersatileContainer(versatileContainer.filter((each) => each.id !== selectedVersatile.id));
+      setSelectedVersatile(null);
     }
   };
 
   const handleRotateLeft = () => {
-    if (selectedId !== null) {
-      setVersatileContainer(versatileContainer.map((each) => each.id === selectedId ? { ...each, rotateState: each.rotateState - 1 } : each));
+    if (selectedVersatile !== null) {
+      setVersatileContainer(versatileContainer.map((each) => each.id === selectedVersatile.id ? { ...each, rotateState: each.rotateState - 1 } : each));
     }
   }
 
   const handleRotateRight = () => {
-    if (selectedId !== null) {
-      setVersatileContainer(versatileContainer.map((each) => each.id === selectedId ? { ...each, rotateState: each.rotateState + 1 } : each));
+    if (selectedVersatile !== null) {
+      setVersatileContainer(versatileContainer.map((each) => each.id === selectedVersatile.id ? { ...each, rotateState: each.rotateState + 1 } : each));
+    }
+  }
+
+  const increaseZIndex = () => {
+    if (selectedVersatile !== null) {
+      const newContainer = versatileContainer.map((each) =>
+        each.id === selectedVersatile.id ? { ...each, zIndex: each.zIndex + 1 } : each
+      );
+      setVersatileContainer(newContainer);
+      setSelectedVersatile({ ...selectedVersatile, zIndex: selectedVersatile.zIndex + 1 });
+    }
+  }
+
+  const decreaseZIndex = () => {
+    if (selectedVersatile !== null) {
+      const newContainer = versatileContainer.map((each) =>
+        each.id === selectedVersatile.id ? { ...each, zIndex: each.zIndex - 1 } : each
+      );
+      setVersatileContainer(newContainer);
+      setSelectedVersatile({ ...selectedVersatile, zIndex: selectedVersatile.zIndex - 1 });
     }
   }
 
   return (
     <Main>
-      {versatileContainer.map((item) => (
-        <VersatileComp
-          key={item.id}
-          id={item.id}
-          isSelected={selectedId === item.id}
-          onSelect={handleSelect}
-          dropPosition={item.dropPosition}
-          initialSize={item.initialSize}
-          imageSrc={item.image}
-          rotateState={item.rotateState}
-        />
-      ))}
-      <ButtonGroup>
-        <ControlButtonBox>
-          {/* <ControlButton onClick={toggleFix} data-resize-handle>
-            {isFixed ? "Free" : "Fix"}
-          </ControlButton>
-          <ControlButton onClick={adjustRatio} data-resize-handle>
-            Ratio
-          </ControlButton>
-          <ControlButton onClick={flipHorizontal} data-resize-handle>
-            ⇄
-          </ControlButton> */}
-          <ControlButton onClick={handleDelete} data-resize-handle>
-            X
-          </ControlButton>
-          <ControlButton onClick={handleRotateLeft} data-resize-handle>
-            ↺
-          </ControlButton>
-          <ControlButton onClick={handleRotateRight} data-resize-handle>
-            ↻
-          </ControlButton>
-        </ControlButtonBox>
-        {/* <ControlButtonBox>
-          <ControlButton>depth:{zIndex}
-          </ControlButton>
-          <ControlButton onClick={increaseZIndex}>+</ControlButton>
-          <ControlButton onClick={decreaseZIndex}>-</ControlButton>
-        </ControlButtonBox> */}
-      </ButtonGroup>
-    </Main >
+      <VersatileContainer>
+        {versatileContainer.map((each) => (
+          <VersatileComp
+            key={each.id}
+            data={each}
+            isSelected={selectedVersatile?.id === each.id}
+            onSelect={handleSelect}
+          />
+        ))}
+      </VersatileContainer>
+      {selectedVersatile && (
+        <ButtonGroup>
+          <ControlButtonBox>
+            <ControlButton onClick={handleDelete} data-resize-handle>
+              X
+            </ControlButton>
+            <ControlButton onClick={handleRotateLeft} data-resize-handle>
+              ↺
+            </ControlButton>
+            <ControlButton onClick={handleRotateRight} data-resize-handle>
+              ↻
+            </ControlButton>
+          </ControlButtonBox>
+          <ControlButtonBox>
+            <ControlButton>depth:{selectedVersatile.zIndex}</ControlButton>
+            <ControlButton onClick={increaseZIndex}>+</ControlButton>
+            <ControlButton onClick={decreaseZIndex}>-</ControlButton>
+          </ControlButtonBox>
+        </ButtonGroup>
+      )}
+    </Main>
   );
 }
 
@@ -112,6 +119,11 @@ const Main = styled.main`
   background-color: #f0f0f0;
 `;
 
+const VersatileContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
 
 const ButtonGroup = styled.div`
   width: 100%;

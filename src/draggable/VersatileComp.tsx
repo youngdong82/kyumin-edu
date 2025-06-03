@@ -1,24 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useRotatedImage } from "../shared/useRotateImg";
-import { FrameCoords, Size } from '../shared/TypeRepository';
+import { FrameCoords, Size, VersatileImage } from '../shared/TypeRepository';
 import { frameCoordsWithRotate } from '../shared/frameCoordsWithRotate';
 
 const cornerSize = 10;
 const centerSize = 10;
 
 interface VersatileCompProps {
-  id: number;
   isSelected: boolean;
   onSelect: (id: number) => void;
-  dropPosition: { x: number, y: number };
-  initialSize: { width: number, height: number };
-  imageSrc: string;
-  rotateState: number;
+  data: VersatileImage;
 }
 
 
-const VersatileComp = ({ id, isSelected, onSelect, dropPosition, initialSize, imageSrc, rotateState }: VersatileCompProps) => {
+const VersatileComp = ({ isSelected, onSelect, data: { id, dropPosition, initialSize, imageSrc, rotateState, zIndex } }: VersatileCompProps) => {
 
   const [corners, setCorners] = useState<FrameCoords>(frameCoordsWithRotate(dropPosition, initialSize, false));
 
@@ -199,7 +195,8 @@ const VersatileComp = ({ id, isSelected, onSelect, dropPosition, initialSize, im
         left: corners.nw.x,
         top: corners.nw.y,
         width: size.width,
-        height: size.height
+        height: size.height,
+        zIndex: zIndex
       }}
     >
       {isSelected && (
