@@ -26,6 +26,7 @@ export interface VersatileImage {
   id: number;
   dropPosition: Point;
   initialSize: Size;
+  ratio: number;
   imageSrc: string;
   rotateState: number;
   zIndex: number;

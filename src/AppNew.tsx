@@ -23,6 +23,7 @@ export default function App() {
       id: 1,
       dropPosition: { x: 400, y: 100 },
       initialSize: { width: 200, height: 100 },
+      ratio: 2,
       imageSrc: 동물1,
       rotateState: 0,
       zIndex: 1,
@@ -31,7 +32,8 @@ export default function App() {
     {
       id: 2,
       dropPosition: { x: 200, y: 600 },
-      initialSize: { width: 300, height: 150 },
+      initialSize: { width: 300, height: 100 },
+      ratio: 3,
       imageSrc: 동물2,
       rotateState: 0,
       zIndex: 2,
@@ -41,6 +43,7 @@ export default function App() {
       id: 3,
       dropPosition: { x: 800, y: 900 },
       initialSize: { width: 300, height: 300 },
+      ratio: 1,
       imageSrc: 동물3,
       rotateState: 0,
       zIndex: 3,
@@ -119,12 +122,6 @@ export default function App() {
     }
   }
 
-  const adjustRatio = () => {
-    if (selectedVersatile !== null && !selectedVersatile.isFixed) {
-      console.log('adjustRatio');
-    }
-  }
-
   return (
     <Main>
       <VersatileContainer>
@@ -161,9 +158,6 @@ export default function App() {
             </ControlButton>
           </ControlButtonBox>
           <ControlButtonBox>
-            <ControlButton onClick={adjustRatio} data-resize-handle>
-              Ratio
-            </ControlButton>
             <ControlButton onClick={flipHorizontal} data-resize-handle>
               ⇄
             </ControlButton>

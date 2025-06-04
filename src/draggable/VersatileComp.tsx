@@ -14,7 +14,7 @@ interface VersatileCompProps {
 }
 
 
-const VersatileComp = ({ isSelected, onSelect, data: { id, dropPosition, initialSize, imageSrc, rotateState, zIndex, isFixed } }: VersatileCompProps) => {
+const VersatileComp = ({ isSelected, onSelect, data: { id, dropPosition, initialSize, ratio, imageSrc, rotateState, zIndex, isFixed } }: VersatileCompProps) => {
   const [corners, setCorners] = useState<FrameCoords>(frameCoordsWithRotate(dropPosition, initialSize, false));
   const [size, setSize] = useState<Size>({
     width: corners.ne.x - corners.nw.x,
@@ -186,6 +186,25 @@ const VersatileComp = ({ isSelected, onSelect, data: { id, dropPosition, initial
     }
   }, [rotateState]);
 
+  // ------------------------------------------------------------
+  // Adjust Ratio
+  // ------------------------------------------------------------
+  const handleDoubleClickForAdjustRatio = () => {
+    // rotateState가 짝수면 세로 비율 조정
+    if (rotateState % 2 === 0) {
+      setCorners((prev) => frameCoordsWithRotate(
+        prev.center,
+        { width: size.width, height: size.width / ratio },
+        false
+      ));
+    } else {// rotateState가 홀수면 가로 비율 조정
+      setCorners((prev) => frameCoordsWithRotate(
+        prev.center,
+        { width: size.height / ratio, height: size.height },
+        false
+      ));
+    }
+  }
 
 
   return (
@@ -263,6 +282,7 @@ const VersatileComp = ({ isSelected, onSelect, data: { id, dropPosition, initial
           height: size.height * 0.9
         }}
         onMouseDown={(e) => handleMouseDownForMove(e)}
+        onDoubleClick={handleDoubleClickForAdjustRatio}
       />
     </VersatileDiv >
   );
