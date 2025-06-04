@@ -9,7 +9,7 @@ const centerSize = 10;
 
 interface VersatileCompProps {
   isSelected: boolean;
-  onSelect: (id: number) => void;
+  onSelect: (e: React.MouseEvent, id: number) => void;
   data: VersatileImage;
 }
 
@@ -132,7 +132,7 @@ const VersatileComp = ({ isSelected, onSelect, data: { id, dropPosition, initial
   // ------------------------------------------------------------
   const handleMouseDownForMove = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onSelect(id);
+    onSelect(e, id);
     if (isFixed) return;
     isMoving.current = true;
     const diffX = e.clientX - corners.center.x;
@@ -311,7 +311,7 @@ const CenterHandle = styled.div`
 const BigCenterHandle = styled.div`
   opacity: 0.2;
   background-color: transparent;
-  background-color: #FE9135;
+  // background-color: #FE9135;
   z-index: 4;
   &:hover {
     background-color: #E05F1D;
@@ -327,7 +327,8 @@ const CenterImage = styled.img`
 
 const VersatileDiv = styled.div`
   position: relative;
-  background-color: beige;
+  // background-color: beige;
+  background-color: transparent;
   z-index: 1;
 `;
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import VersatileComp from './draggable/VersatileComp';
 import 동물1 from './asset/test/animal/동물1.png'
@@ -6,16 +6,28 @@ import 동물2 from './asset/test/animal/동물2.png'
 import 동물3 from './asset/test/animal/동물3.png'
 import { VersatileImage } from './shared/TypeRepository';
 import { flipImage } from './shared/flipImage';
-
+import Hanji from './asset/background.jpg';
+import LeftImageContainer from './container/LeftImageContainer';
+import { ImageData } from './shared/types';
+import UploadImgBtn from './container/UploadImgBtn';
 
 export default function App() {
   const [selectedVersatile, setSelectedVersatile] = useState<VersatileImage | null>(null);
   const [versatileContainer, setVersatileContainer] = useState<VersatileImage[]>(
     []
   );
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
-  const handleSelect = (id: number) => {
+  const handleSelect = (e: React.MouseEvent, id: number) => {
+    e.preventDefault();
+    e.stopPropagation();
     setSelectedVersatile(versatileContainer.find((each) => each.id === id) || null);
+  }
+
+  const releseSelect = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      setSelectedVersatile(null);
+    }
   }
 
   useEffect(() => {
@@ -122,9 +134,35 @@ export default function App() {
     }
   }
 
+  const handleImageAdd = (imageData: Omit<ImageData, "id">) => {
+    const newId = versatileContainer.length > 0
+      ? Math.max(...versatileContainer.map(img => img.id)) + 1
+      : 1;
+
+    const newVersatileImage: VersatileImage = {
+      id: newId,
+      dropPosition: { x: 400, y: 300 },
+      initialSize: { width: imageData.width, height: imageData.height },
+      ratio: imageData.width / imageData.height,
+      imageSrc: imageData.imageUrl,
+      rotateState: 0,
+      zIndex: versatileContainer.length + 1,
+      isFixed: false,
+    };
+
+    setVersatileContainer([...versatileContainer, newVersatileImage]);
+    setUploadedImages([...uploadedImages, imageData.imageUrl]);
+  };
+
+
   return (
     <Main>
-      <VersatileContainer>
+      <Title>HWANG KYU MIN</Title>
+      <LeftImageContainer onImageAdd={handleImageAdd} />
+      <VersatileContainer
+        $backgroundImage={Hanji}
+        onClick={releseSelect}
+      >
         {versatileContainer.map((each) => (
           <VersatileComp
             key={each.id}
@@ -156,8 +194,6 @@ export default function App() {
             <ControlButton onClick={handleRotateRight} data-resize-handle>
               ↻
             </ControlButton>
-          </ControlButtonBox>
-          <ControlButtonBox>
             <ControlButton onClick={flipHorizontal} data-resize-handle>
               ⇄
             </ControlButton>
@@ -177,18 +213,41 @@ const Main = styled.main`
   height: 100vh;
   margin: 0 auto;
   background-color: #f0f0f0;
+
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  align-items: center;
 `;
 
-const VersatileContainer = styled.div`
-  position: relative;
+const Title = styled.h1`
+  font-size: 30px;
+  margin-bottom: 40px;
+
   width: 100%;
-  height: 100%;
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+
+  padding: 10px 20px;
+`;
+
+const VersatileContainer = styled.div<{ $backgroundImage: string }>`
+  position: relative;
+  width: 90vw;
+  height: 80vh;
+  background-image: 
+    // linear-gradient(rgba(183, 183, 183, 0.3), rgba(107, 107, 107, 0.3)),
+    url(${({ $backgroundImage }) => $backgroundImage});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 `;
 
 const ButtonGroup = styled.div`
   width: 100%;
   position: absolute;
-  bottom: 100px;
+  bottom: 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
