@@ -92,7 +92,7 @@ const LeftNavBar: React.FC<LeftNavBarProps> = ({ onImageAdd }) => {
           </CategoryButton>
         </CategoryButtonGroup>
         <CategoryImageList />
-        <ImageListComp images={uploadedImages} onImageAdd={() => { }} />
+        {/* <ImageListComp images={uploadedImages} onImageAdd={() => { }} /> */}
         {/* <UploadImgBtn onImageAdd={onImageAdd} /> */}
       </LnbSection >
     </>

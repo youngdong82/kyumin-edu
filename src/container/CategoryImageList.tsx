@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useStore } from "../shared/selectedCategory";
+import { useVersatileContainerStore } from '../shared/versatileContainerStore';
 import { ImageData } from "../shared/types";
 
 import { treeImages } from '../importImage/importTree';
@@ -14,13 +15,21 @@ import { otherImages } from '../importImage/importOther';
 import { plantImages } from '../importImage/importPlant';
 import { figureImages } from '../importImage/importFigure';
 import { fishImages } from '../importImage/importFish';
+import { VersatileImage } from '../shared/TypeRepository';
 
 
 const MAX_IMAGE_SIZE = 100;
 
+const DROP_RANGE = {
+  x: { min: 200, max: 1800 },
+  y: { min: 300, max: 800 }
+};
+
+const SCALE = 2;
 
 const CategoryImageList: React.FC = () => {
   const { selectedCategory } = useStore();
+  const { setSelectedVersatile, versatileContainer, setVersatileContainer } = useVersatileContainerStore();
   const [images, setImages] = useState<ImageData[]>([]);
   const makeImagesToLoad = () => {
     switch (selectedCategory) {
@@ -88,6 +97,27 @@ const CategoryImageList: React.FC = () => {
     });
   };
 
+  const getRandomPosition = () => {
+    const randomX = Math.floor(Math.random() * (DROP_RANGE.x.max - DROP_RANGE.x.min) + DROP_RANGE.x.min);
+    const randomY = Math.floor(Math.random() * (DROP_RANGE.y.max - DROP_RANGE.y.min) + DROP_RANGE.y.min);
+    return { x: randomX, y: randomY };
+  };
+
+  const handleImageClick = (image: ImageData) => {
+    const newVersatileImage: VersatileImage = {
+      id: versatileContainer.length + 1,
+      dropPosition: getRandomPosition(),
+      initialSize: { width: image.width * SCALE, height: image.height * SCALE },
+      ratio: image.width / image.height,
+      imageSrc: image.imageUrl,
+      rotateState: 0,
+      zIndex: versatileContainer.length + 1,
+      isFixed: false
+    };
+    setSelectedVersatile(newVersatileImage);
+    setVersatileContainer([...versatileContainer, newVersatileImage]);
+  };
+
   return (
     <Container>
       <ImageList>
@@ -95,6 +125,7 @@ const CategoryImageList: React.FC = () => {
           <ImageDiv
             key={image.id}
             $aspectRatio={image.width / image.height}
+            onClick={() => handleImageClick(image)}
           >
             <img src={image.imageUrl} alt={`Image ${image.id}`} />
           </ImageDiv>

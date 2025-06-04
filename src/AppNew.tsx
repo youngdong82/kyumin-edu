@@ -1,21 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import VersatileComp from './draggable/VersatileComp';
+import { VersatileImage } from './shared/TypeRepository';
+import { flipImage } from './shared/flipImage';
+import LeftImageContainer from './container/LeftImageContainer';
+import { ImageData } from './shared/types';
+import { useVersatileContainerStore } from './shared/versatileContainerStore';
 import 동물1 from './asset/test/animal/동물1.png'
 import 동물2 from './asset/test/animal/동물2.png'
 import 동물3 from './asset/test/animal/동물3.png'
-import { VersatileImage } from './shared/TypeRepository';
-import { flipImage } from './shared/flipImage';
 import Hanji from './asset/background.jpg';
-import LeftImageContainer from './container/LeftImageContainer';
-import { ImageData } from './shared/types';
-import UploadImgBtn from './container/UploadImgBtn';
 
 export default function App() {
-  const [selectedVersatile, setSelectedVersatile] = useState<VersatileImage | null>(null);
-  const [versatileContainer, setVersatileContainer] = useState<VersatileImage[]>(
-    []
-  );
+  const {
+    selectedVersatile,
+    setSelectedVersatile,
+    versatileContainer,
+    setVersatileContainer
+  } = useVersatileContainerStore();
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
   const handleSelect = (e: React.MouseEvent, id: number) => {
@@ -29,40 +31,6 @@ export default function App() {
       setSelectedVersatile(null);
     }
   }
-
-  useEffect(() => {
-    setVersatileContainer([{
-      id: 1,
-      dropPosition: { x: 400, y: 100 },
-      initialSize: { width: 200, height: 100 },
-      ratio: 2,
-      imageSrc: 동물1,
-      rotateState: 0,
-      zIndex: 1,
-      isFixed: false,
-    },
-    {
-      id: 2,
-      dropPosition: { x: 200, y: 600 },
-      initialSize: { width: 300, height: 100 },
-      ratio: 3,
-      imageSrc: 동물2,
-      rotateState: 0,
-      zIndex: 2,
-      isFixed: false,
-    },
-    {
-      id: 3,
-      dropPosition: { x: 800, y: 900 },
-      initialSize: { width: 300, height: 300 },
-      ratio: 1,
-      imageSrc: 동물3,
-      rotateState: 0,
-      zIndex: 3,
-      isFixed: false,
-    },
-    ]);
-  }, []);
 
   const toggleFix = () => {
     if (selectedVersatile !== null) {
