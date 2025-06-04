@@ -180,9 +180,7 @@ const VersatileComp = ({ isSelected, onSelect, data: { id, dropPosition, initial
   const rotatedImageSrc = useRotatedImage(imageSrc, rotateState * 90);
 
   useEffect(() => {
-    console.log('rotateState useEffect!!!');
     if (prevRotateState.current !== rotateState) {
-      console.log('rotateState changed:', rotateState);
       setCorners((prev) => frameCoordsWithRotate(prev.center, size, true));
       prevRotateState.current = rotateState;
     }

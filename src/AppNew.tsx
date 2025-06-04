@@ -31,12 +31,22 @@ export default function App() {
     {
       id: 2,
       dropPosition: { x: 200, y: 600 },
-      initialSize: { width: 100, height: 300 },
+      initialSize: { width: 300, height: 150 },
       imageSrc: 동물2,
       rotateState: 0,
       zIndex: 2,
       isFixed: false,
-    }]);
+    },
+    {
+      id: 3,
+      dropPosition: { x: 800, y: 900 },
+      initialSize: { width: 300, height: 300 },
+      imageSrc: 동물3,
+      rotateState: 0,
+      zIndex: 3,
+      isFixed: false,
+    },
+    ]);
   }, []);
 
   const toggleFix = () => {
@@ -90,7 +100,6 @@ export default function App() {
 
   const flipHorizontal = async () => {
     if (selectedVersatile !== null && !selectedVersatile.isFixed) {
-      console.log('flipHorizontal');
       const newImageSrc = await flipImage(selectedVersatile.imageSrc, 'horizontal');
       setVersatileContainer(versatileContainer.map((each) => each.id === selectedVersatile.id ? {
         ...each,
@@ -101,13 +110,18 @@ export default function App() {
   }
   const flipVertical = async () => {
     if (selectedVersatile !== null && !selectedVersatile.isFixed) {
-      console.log('flipVertical');
       const newImageSrc = await flipImage(selectedVersatile.imageSrc, 'vertical');
       setVersatileContainer(versatileContainer.map((each) => each.id === selectedVersatile.id ? {
         ...each,
         imageSrc: newImageSrc
       } : each));
       setSelectedVersatile({ ...selectedVersatile, imageSrc: newImageSrc || selectedVersatile.imageSrc });
+    }
+  }
+
+  const adjustRatio = () => {
+    if (selectedVersatile !== null && !selectedVersatile.isFixed) {
+      console.log('adjustRatio');
     }
   }
 
@@ -147,9 +161,9 @@ export default function App() {
             </ControlButton>
           </ControlButtonBox>
           <ControlButtonBox>
-            {/* <ControlButton onClick={adjustRatio} data-resize-handle>
-            Ratio
-          </ControlButton> */}
+            <ControlButton onClick={adjustRatio} data-resize-handle>
+              Ratio
+            </ControlButton>
             <ControlButton onClick={flipHorizontal} data-resize-handle>
               ⇄
             </ControlButton>

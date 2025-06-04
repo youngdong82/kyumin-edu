@@ -1,5 +1,4 @@
 export const flipImage = (imageSrc: string, direction: 'horizontal' | 'vertical'): Promise<string> => {
-  console.log('flipImage', direction);
 
   return new Promise((resolve) => {
     const img = new Image();
