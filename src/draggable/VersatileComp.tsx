@@ -272,6 +272,7 @@ const VersatileComp = ({ isSelected, onSelect, data: { id, dropPosition, initial
           width: size.width * 0.8,
           height: size.height * 0.8,
         }}
+        data-show
       />
       <BigCenterHandle
         style={{

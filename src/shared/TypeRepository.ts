@@ -32,3 +32,12 @@ export interface VersatileImage {
   zIndex: number;
   isFixed: boolean;
 }
+
+export type RatioKey =
+  | "wide-16-9"
+  | "wide-3-2"
+  | "wide-4-3"
+  | "square-1-1"
+  | "tall-9-16"
+  | "tall-2-3"
+  | "tall-3-4";
