@@ -16,14 +16,10 @@ import { plantImages } from '../importImage/importPlant';
 import { figureImages } from '../importImage/importFigure';
 import { fishImages } from '../importImage/importFish';
 import { VersatileImage } from '../shared/TypeRepository';
+import { getRandomPosition } from '../shared/getRandomPosition';
 
 
 const MAX_IMAGE_SIZE = 100;
-
-const DROP_RANGE = {
-  x: { min: 200, max: 1800 },
-  y: { min: 300, max: 800 }
-};
 
 const SCALE = 2;
 
@@ -97,11 +93,7 @@ const CategoryImageList: React.FC = () => {
     });
   };
 
-  const getRandomPosition = () => {
-    const randomX = Math.floor(Math.random() * (DROP_RANGE.x.max - DROP_RANGE.x.min) + DROP_RANGE.x.min);
-    const randomY = Math.floor(Math.random() * (DROP_RANGE.y.max - DROP_RANGE.y.min) + DROP_RANGE.y.min);
-    return { x: randomX, y: randomY };
-  };
+
 
   const handleImageClick = (image: ImageData) => {
     const newVersatileImage: VersatileImage = {

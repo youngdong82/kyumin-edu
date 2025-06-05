@@ -41,3 +41,10 @@ export type RatioKey =
   | "tall-9-16"
   | "tall-2-3"
   | "tall-3-4";
+
+
+export interface SimpleImageData {
+  imageUrl: string;
+  width: number;
+  height: number;
+}

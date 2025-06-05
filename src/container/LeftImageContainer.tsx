@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useStore } from '../shared/selectedCategory';
-import ImageListComp from './ImageList';
-import { ImageData } from '../shared/types';
 import CategoryImageList from './CategoryImageList';
 
 
-interface LeftNavBarProps {
-  onImageAdd: (imageData: Omit<ImageData, "id">) => void;
-}
-
-const LeftNavBar: React.FC<LeftNavBarProps> = ({ onImageAdd }) => {
+const LeftNavBar: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
   const { selectedCategory, setSelectedCategory } = useStore();
-  const [uploadedImages, setUploadedImages] = useState<ImageData[]>([]);
 
 
   return (
@@ -92,8 +85,6 @@ const LeftNavBar: React.FC<LeftNavBarProps> = ({ onImageAdd }) => {
           </CategoryButton>
         </CategoryButtonGroup>
         <CategoryImageList />
-        {/* <ImageListComp images={uploadedImages} onImageAdd={() => { }} /> */}
-        {/* <UploadImgBtn onImageAdd={onImageAdd} /> */}
       </LnbSection >
     </>
   )

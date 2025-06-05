@@ -1,24 +1,63 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
-import { ImageData } from '../shared/types';
+import { useVersatileContainerStore } from '../shared/versatileContainerStore';
+import { SimpleImageData, VersatileImage } from '../shared/TypeRepository';
+import { getRandomPosition } from '../shared/getRandomPosition';
+
 
 const MAX_IMAGE_SIZE = 100;
+const SCALE = 4;
+const allowedExtensions = new Set([
+  "jpg",
+  "jpeg",
+  "png",
+  "gif",
+  "bmp",
+  "webp",
+]);
 
-interface UploadImgBtnProps {
-  onImageAdd: (imageData: Omit<ImageData, "id">) => void;
-}
-
-const UploadImgBtn: React.FC<UploadImgBtnProps> = ({ onImageAdd }) => {
+const UploadImgBtn: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const {
+    setSelectedVersatile,
+    versatileContainer,
+    setVersatileContainer
+  } = useVersatileContainerStore();
 
-  const loadImage = (file: File): Promise<HTMLImageElement> => {
-    return new Promise((resolve, reject) => {
+  /** 새 이미지 객체 생성 후 상태 반영 */
+  const onImageAdd = (imageData: SimpleImageData) => {
+    const newVersatileImage: VersatileImage = {
+      id: versatileContainer.length * Math.random(),
+      dropPosition: getRandomPosition(),
+      initialSize: { width: imageData.width, height: imageData.height },
+      ratio: imageData.width / imageData.height,
+      imageSrc: imageData.imageUrl,
+      rotateState: 0,
+      zIndex: versatileContainer.length + 1,
+      isFixed: false,
+    };
+    setSelectedVersatile(newVersatileImage);
+    setVersatileContainer([...versatileContainer, newVersatileImage]);
+  }
+
+
+  /** 파일 → HTMLImageElement 로드 (Object-URL 해제 포함) */
+  const loadImage = (file: File): Promise<HTMLImageElement> =>
+    new Promise((resolve, reject) => {
       const img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = reject;
+
+      img.onload = () => {
+        URL.revokeObjectURL(img.src); // 메모리 누수 방지
+        resolve(img);
+      };
+      img.onerror = (err) => {
+        URL.revokeObjectURL(img.src);
+        reject(err);
+      };
+
       img.src = URL.createObjectURL(file);
     });
-  };
+
 
   const handleCreateClick = () => {
     fileInputRef.current?.click();
@@ -28,45 +67,38 @@ const UploadImgBtn: React.FC<UploadImgBtnProps> = ({ onImageAdd }) => {
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = event.target.files?.[0];
-    if (file) {
-      const fileExtension = file.name.split(".").pop()?.toLowerCase();
-      const allowedExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "webp"];
+    if (!file) return;
 
-      if (allowedExtensions.includes(fileExtension || "")) {
-        try {
-          const img = await loadImage(file);
-          const aspectRatio = img.width / img.height;
+    // 다시 업로드할 수 있도록 즉시 초기화
+    event.target.value = "";
 
-          let width, height;
-          if (img.width > img.height) {
-            width = Math.min(img.width, MAX_IMAGE_SIZE);
-            height = width / aspectRatio;
-          } else {
-            height = Math.min(img.height, MAX_IMAGE_SIZE);
-            width = height * aspectRatio;
-          }
-
-          const imageUrl = URL.createObjectURL(file);
-          onImageAdd({ imageUrl, width, height });
-        } catch (error) {
-          console.error("Error loading image:", error);
-          alert("There was an error loading the image. Please try again.");
-        }
-      } else {
-        alert(
-          "Please upload only image files (jpg, jpeg, png, gif, bmp, webp).",
-        );
-      }
+    const fileExt = file.name.split(".").pop()?.toLowerCase() ?? "";
+    if (!allowedExtensions.has(fileExt)) {
+      alert("jpg, png, gif, webp 등 이미지 파일만 업로드해 주세요.");
+      return;
     }
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+
+    try {
+      const img = await loadImage(file);
+      const aspectRatio = img.width / img.height;
+
+      const { width, height } =
+        img.width >= img.height
+          ? { width: MAX_IMAGE_SIZE, height: MAX_IMAGE_SIZE / aspectRatio }
+          : { width: MAX_IMAGE_SIZE * aspectRatio, height: MAX_IMAGE_SIZE };
+
+      const imageUrl = URL.createObjectURL(file); // 표시용 URL
+      onImageAdd({ imageUrl, width: width * SCALE, height: height * SCALE });
+    } catch (err) {
+      console.error("Error loading image:", err);
+      alert("이미지 로딩 중 오류가 발생했습니다. 다시 시도해 주세요.");
     }
   };
 
   return (
     <ButtonContainer>
       <Button onClick={handleCreateClick}>
-        Upload Image
+        Upload
         <input
           type="file"
           ref={fileInputRef}
@@ -81,28 +113,19 @@ const UploadImgBtn: React.FC<UploadImgBtnProps> = ({ onImageAdd }) => {
 
 
 const ButtonContainer = styled.div`
-  width: 100%;
+  width: fit-content;
   display: flex;
   justify-content: center;
-  padding: 0 1rem;
 `;
 
 const Button = styled.button`
-  height: 32px;
-  padding: 8px 16px;
-  border: 1px solid gray;
-  cursor: pointer;
-  font-size: 14px;
-  background-color: rgb(231, 231, 231);
-
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #b8b8b8;
   &:hover {
     transform: scale(1.05);
   }
-
-  &:disabled {
-    background-color:rgb(163, 163, 163);
-    cursor: not-allowed;
-  }
+  transition: all 0.2s ease;
 `;
 
 

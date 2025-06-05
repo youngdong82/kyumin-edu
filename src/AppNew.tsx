@@ -1,24 +1,22 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import VersatileComp from './draggable/VersatileComp';
-import { RatioKey, VersatileImage } from './shared/TypeRepository';
+import { RatioKey } from './shared/TypeRepository';
 import LeftImageContainer from './container/LeftImageContainer';
-import { ImageData } from './shared/types';
 import { useVersatileContainerStore } from './shared/versatileContainerStore';
 import Hanji1 from './asset/background.jpg';
 import Hanji2 from './asset/background2.jpg';
 import FloatingBtnContainer from './container/FloatingBtnContainer';
 import { handleDownload } from './shared/downloadImage';
+import UploadImgBtn from './container/UploadImgBtn';
 
 export default function App() {
   const {
     selectedVersatile,
     setSelectedVersatile,
     versatileContainer,
-    setVersatileContainer
   } = useVersatileContainerStore();
   const [ratio, setRatio] = useState<RatioKey>("wide-16-9");
-  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const playgroundSheetRef = useRef<HTMLDivElement>(null);
 
   const ratioOptions: Record<RatioKey, { label: string; ratio: number }> = {
@@ -48,26 +46,6 @@ export default function App() {
       setSelectedVersatile(null);
     }
   }
-
-  const handleImageAdd = (imageData: Omit<ImageData, "id">) => {
-    const newId = versatileContainer.length > 0
-      ? Math.max(...versatileContainer.map(img => img.id)) + 1
-      : 1;
-
-    const newVersatileImage: VersatileImage = {
-      id: newId,
-      dropPosition: { x: 400, y: 300 },
-      initialSize: { width: imageData.width, height: imageData.height },
-      ratio: imageData.width / imageData.height,
-      imageSrc: imageData.imageUrl,
-      rotateState: 0,
-      zIndex: versatileContainer.length + 1,
-      isFixed: false,
-    };
-
-    setVersatileContainer([...versatileContainer, newVersatileImage]);
-    setUploadedImages([...uploadedImages, imageData.imageUrl]);
-  };
 
 
   return (
@@ -106,7 +84,7 @@ export default function App() {
           ))}
         </RatioSection>
       </Header>
-      <LeftImageContainer onImageAdd={handleImageAdd} />
+      <LeftImageContainer />
 
       <VersatileContainer
         ref={playgroundSheetRef}
@@ -126,6 +104,7 @@ export default function App() {
       </VersatileContainer>
       <FloatingBtnContainer />
       <BtnContainer>
+        <UploadImgBtn />
         <Btn onClick={() => handleDownload(playgroundSheetRef)}>Download</Btn>
       </BtnContainer>
     </Main >
@@ -193,6 +172,7 @@ const BtnContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  gap: 10px;
   
   padding: 10px 20px;
 `;
