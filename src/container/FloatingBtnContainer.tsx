@@ -88,10 +88,10 @@ const FloatingBtnContainer = () => {
       {selectedVersatile && (
         <ButtonGroup>
           <ControlButtonBox>
-            <ControlButton onClick={toggleFix} data-resize-handle>
+            <ControlButton onClick={toggleFix}>
               {selectedVersatile.isFixed ? "Free" : "Fix"}
             </ControlButton>
-            <ControlButton onClick={handleDelete} data-resize-handle>
+            <ControlButton onClick={handleDelete}>
               X
             </ControlButton>
           </ControlButtonBox>
@@ -101,16 +101,16 @@ const FloatingBtnContainer = () => {
             <ControlButton onClick={decreaseZIndex}>-</ControlButton>
           </ControlButtonBox>
           <ControlButtonBox>
-            <ControlButton onClick={handleRotateLeft} data-resize-handle>
+            <ControlButton onClick={handleRotateLeft}>
               ↺
             </ControlButton>
-            <ControlButton onClick={handleRotateRight} data-resize-handle>
+            <ControlButton onClick={handleRotateRight}>
               ↻
             </ControlButton>
-            <ControlButton onClick={flipHorizontal} data-resize-handle>
+            <ControlButton onClick={flipHorizontal}>
               ⇄
             </ControlButton>
-            <ControlButton onClick={flipVertical} data-resize-handle>
+            <ControlButton onClick={flipVertical}>
               ⇅
             </ControlButton>
           </ControlButtonBox>

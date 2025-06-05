@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import VersatileComp from './draggable/VersatileComp';
 import { VersatileImage } from './shared/TypeRepository';
@@ -7,6 +7,7 @@ import { ImageData } from './shared/types';
 import { useVersatileContainerStore } from './shared/versatileContainerStore';
 import Hanji from './asset/background.jpg';
 import FloatingBtnContainer from './container/FloatingBtnContainer';
+import { handleDownload } from './shared/downloadImage';
 
 export default function App() {
   const {
@@ -16,6 +17,7 @@ export default function App() {
     setVersatileContainer
   } = useVersatileContainerStore();
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const playgroundSheetRef = useRef<HTMLDivElement>(null);
 
   const handleSelect = (e: React.MouseEvent, id: number) => {
     e.preventDefault();
@@ -55,6 +57,7 @@ export default function App() {
       <Title>HWANG KYU MIN</Title>
       <LeftImageContainer onImageAdd={handleImageAdd} />
       <VersatileContainer
+        ref={playgroundSheetRef}
         $backgroundImage={Hanji}
         onClick={releseSelect}
       >
@@ -68,6 +71,9 @@ export default function App() {
         ))}
       </VersatileContainer>
       <FloatingBtnContainer />
+      <BtnContainer>
+        <Btn onClick={() => handleDownload(playgroundSheetRef)}>Download</Btn>
+      </BtnContainer>
     </Main >
   );
 }
@@ -109,3 +115,24 @@ const VersatileContainer = styled.div<{ $backgroundImage: string }>`
   background-repeat: no-repeat;
 `;
 
+const BtnContainer = styled.div`
+  width: 100%;
+  height: 10vh;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  
+  padding: 10px 20px;
+`;
+
+
+const Btn = styled.button`
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #b8b8b8;
+  &:hover {
+    transform: scale(1.05);
+  }
+  transition: all 0.2s ease;
+`;
